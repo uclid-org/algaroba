@@ -1,0 +1,18 @@
+(library
+ (name algaroba_lib)
+ (public_name algaroba.algaroba_lib)
+ (modules
+  context
+  r1inline
+  r2rewrite
+  r3flatten
+  r4normalize
+  r5reduce_rules
+  r6reduce_axioms
+  reduction_functions
+  bound
+  z3_utils)
+ (libraries smtlib-utils containers ocamlgraph z3 core)
+ (preprocess
+  (pps landmarks-ppx --auto))
+ (flags :standard -warn-error -A))

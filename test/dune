@@ -1,0 +1,5 @@
+(test
+ (name test_algaroba)
+ (modules test_algaroba)
+ (libraries ounit2 algaroba_lib)
+ (flags :standard -warn-error -A))

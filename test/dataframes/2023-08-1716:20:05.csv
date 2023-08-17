@@ -1,0 +1,11 @@
+,Query Path,SAT/UNSAT,Depths,algaroba,z3 Time,CVC5 Time,Princess Time
+0,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l70090.cvc.smt2,"{'algaroba': 'unsat', 'z3': 'u', 'cvc5': 'u', 'princess': 'T'}",,0.13548493385314941,0.19717884063720703,0.10387992858886719,1201.0
+1,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l30032.cvc.smt2,"{'algaroba': 'unsat', 'z3': 'u', 'cvc5': 'u', 'princess': 'T'}",,0.1427459716796875,0.1972827911376953,0.10333108901977539,1201.0
+2,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l80028.cvc.smt2,"{'algaroba': 'sat', 'z3': 's', 'cvc5': 's', 'princess': 'T'}",,0.12974309921264648,0.1958620548248291,0.0803079605102539,1201.0
+3,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l30033.cvc.smt2,"{'algaroba': 'unsat', 'z3': 'u', 'cvc5': 'u', 'princess': 'T'}",,0.17141008377075195,0.19788599014282227,0.10315608978271484,1201.0
+4,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l80029.cvc.smt2,"{'algaroba': 'unsat', 'z3': 'u', 'cvc5': 'u', 'princess': 'T'}",,0.11312317848205566,0.21148276329040527,0.0883948802947998,1201.0
+5,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l70091.cvc.smt2,"{'algaroba': 'unsat', 'z3': 'u', 'cvc5': 'u', 'princess': 'T'}",,0.1306912899017334,0.19757413864135742,0.10258603096008301,1201.0
+6,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l20053.cvc.smt2,"{'algaroba': 'sat', 'z3': 's', 'cvc5': 's', 'princess': 's'}",,0.19523406028747559,0.1887221336364746,0.08840394020080566,1.3202412128448486
+7,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l20052.cvc.smt2,"{'algaroba': 'sat', 'z3': 's', 'cvc5': 's', 'princess': 's'}",,0.25513672828674316,0.1867690086364746,0.08976197242736816,1.455716848373413
+8,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l70002.cvc.smt2,"{'algaroba': 'unsat', 'z3': 'u', 'cvc5': 'u', 'princess': 'T'}",,0.04613304138183594,0.06830000877380371,0.0299069881439209,1201.0
+9,test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/v1l50052.cvc.smt2,"{'algaroba': 'sat', 'z3': 's', 'cvc5': 's', 'princess': 'T'}",,0.042000770568847656,0.0647420883178711,0.02857804298400879,1201.0

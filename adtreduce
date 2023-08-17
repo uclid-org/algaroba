@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Check if two arguments are given
+if [ "$#" -ne 2 ]; then
+    echo "Usage: adtreduce input.smt2 output.smt2"
+    exit 1
+fi
+
+# Assign variables for clarity
+input=$1
+output=$2
+
+# Execute the command
+$(pwd)/_build/default/src/Fullreduction.exe "$input" 2> "$output"

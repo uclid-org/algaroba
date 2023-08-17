@@ -1,0 +1,10 @@
+(executable
+ (name algaroba)
+ (public_name algaroba)
+ (modes exe)
+ (modules algaroba)
+ (libraries smtlib-utils core algaroba_lib)
+ (preprocess
+  (pps ppx_let landmarks-ppx --auto))
+ (flags
+  (:standard -warn-error -A)))
