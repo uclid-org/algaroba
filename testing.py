@@ -15,7 +15,7 @@ reduction_timeout = timeout
 test_case = "Barrett"
 output_name = ""
 run_pre_solvers= True
-princess_path = "~/Downloads/princess-bin-2022-11-03/princess"
+princess_path = "princess"
 algaroba_flags = {"algaroba": []}
 
 
