@@ -1,7 +1,0 @@
-(declare-fun contrived_variable0 () Bool)
-(declare-fun x () Real)
-(declare-fun f (Real) Bool)
-(assert (or (and (f contrived_variable0) (> 5 x)) (not (= x 5))))
-(assert (and (> 5 x) (= x 5)))
-(assert (= contrived_variable0 (f x)))
-(check-sat)

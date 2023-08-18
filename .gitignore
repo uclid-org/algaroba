@@ -2,12 +2,9 @@ _build
 
 test/QF_DT2/20210312-Bouvier/reduced/
 
-test/QF_DT2/
-test/QF_UFDT/
-test/BlocksWorld/
+
 test/BlocksWorldreduced/
 test/newblocksworldreduced/
-test/blocksworld
 
 
 test/QF_UFDT/20210312-Bouvier/16244440reduced/REDUCEDvlsat3_e01.smt2
