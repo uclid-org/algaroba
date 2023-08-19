@@ -2,7 +2,7 @@
 An eager solver for algebraic data types
 
 ## Install Dependencies
-First [install `opam` and `dune`](https://ocaml.org/docs/up-and-running). Then do
+First [install `opam` and `dune`](https://ocaml.org/docs/up-and-running). This was tested using dune version 3.10.0, opam version 2.1.5, and OCaml version 5.0.0. Then do
 ```sh
 opam install -y --deps-only .
 ```
@@ -46,5 +46,7 @@ test_case: can be 'Barrett', 'Bouvier', 'BouvierUF', or 'blocksworld'
 output_name: the name for the output
 run_pre_solvers: decides whether to run z3, cvc5, and princess
 princess path: the path to run princess, default is 'princess'
+z3 path: the path to run z3, default is 'z3'
+cvc5 path: the path to run cvc5, default is 'cvc5'
 algaroba flags: can run the solver with different flags to compare, default is just '{"algaroba": []}', i.e. no flags
 ```

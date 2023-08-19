@@ -16,6 +16,8 @@ test_case = "Barrett"
 output_name = ""
 run_pre_solvers= True
 princess_path = "princess"
+cvc5_path = "cvc5"
+z3_path = "z3"
 algaroba_flags = {"algaroba": []}
 
 
@@ -120,7 +122,7 @@ def reduction_on_file(file_name, folder):
     if run_pre_solvers:
         # # z3 solver for pre reduction
         start_time = time.time()
-        z3_result = os.popen("z3 -T:" + str(timeout) + " " + file_name)
+        z3_result = os.popen(z3_path + " -T:" + str(timeout) + " " + file_name)
         z3_result = z3_result.read()[0]
         total_time = time.time() - start_time
         z3_result = z3_result
@@ -133,7 +135,7 @@ def reduction_on_file(file_name, folder):
 
         # cvc5 solver for pre-reduction
         start_time = time.time()
-        pre_reduction_cvc5 = os.popen("cvc5 --tlimit=" + str(timeout * 1000) + " " + file_name)
+        pre_reduction_cvc5 = os.popen(cvc5_path + " --tlimit=" + str(timeout * 1000) + " " + file_name)
         pre_reduction_cvc5 = pre_reduction_cvc5.read()
         total_time = time.time() - start_time
 
