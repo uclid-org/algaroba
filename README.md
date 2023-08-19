@@ -38,7 +38,7 @@ algaroba <query> [options]
 
 ## Testing
 Run testing.py to replicate our results. This will create a csv in test/dataframes, a graph in test/graphs, and will print the results to stdout. 
-If you would like to replicate our comparison to [Z3](https://github.com/Z3Prover/z3), [CVC5](https://cvc5.github.io/), and [Princess](http://www.philipp.ruemmer.org/princess.shtml), then you will need to install those tools.
+The Bouvier benchmark is in a separate zip called Bouvier.zip. Please unzip and place in test/QF_DT2/. If you would like to replicate our comparison to [Z3](https://github.com/Z3Prover/z3), [CVC5](https://cvc5.github.io/), and [Princess](http://www.philipp.ruemmer.org/princess.shtml), then you will need to install those tools.
 There are several options in testing.py that you can modify:
 ```
 timeout: default is 1200 seconds
