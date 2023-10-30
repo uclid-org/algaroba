@@ -85,10 +85,10 @@ let speclist =
           in
           print_time before "Parsing time" ;
           let before = Core.Time.now () in
-          let is = inline_statements (List.map stmt_list ~f:statement_to_stmt) in
+          let start_is, is = inline_statements (List.map stmt_list ~f:statement_to_stmt) in
           print_time before "Inline time" ;
           let before = Core.Time.now () in
-          let rs = rewrite_statements is in
+          let rs = rewrite_statements start_is is in
           print_time before "Rewrite time" ;
           let before = Core.Time.now () in
           let fs = flatten_statements rs in

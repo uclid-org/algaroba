@@ -1,0 +1,45 @@
+<project name="rada" default="generate" basedir=".">
+	<property name="src" location="src" />
+	<property name="gen" location="gen" />
+	<property name="src" location="src" />
+	<property name="package" value="rada" />
+
+	<path id="classpath">
+		<pathelement location="lib/antlr4.jar" />
+		<pathelement location="lib/commons-lang3-3.1.jar" />
+		<pathelement location="bin" />
+	</path>
+
+	<target name="generate" depends="clean">
+		<mkdir dir="${gen}/${package}" />
+		<java classname="org.antlr.v4.Tool" classpathref="classpath" fork="true">
+			<arg value="-o" />
+			<arg path="${gen}/${package}" />
+			<arg value="-lib" />
+			<arg path="${src}/${package}" />
+	    <arg value="-visitor" />
+			<arg value="-listener" />
+
+			<arg value="${src}/${package}/RadaGrammar.g4" />
+		</java>
+	</target>
+
+	<target name="showtree">
+		<input message="Enter Script To Test:" addproperty="test.script" defaultvalue="examples/hung1.rada" />
+		<java classname="org.antlr.v4.runtime.misc.TestRig" classpathref="classpath" fork="true">
+			<arg value="${package}.RadaGrammar" />
+			<arg value="program" />
+			<arg value="-gui" />
+			<arg value="${test.script}" />
+		</java>
+	</target>
+
+	<target name="clean">		
+	  <delete includeemptydirs="true">
+	    <fileset dir="${gen}" includes="**/*"/>
+	  </delete>
+   <delete includeemptydirs="true">
+     <fileset dir="bin" includes="**/*"/>
+    </delete>		
+	</target>
+</project>

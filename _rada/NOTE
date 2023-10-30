@@ -1,0 +1,8 @@
+Some notes about building RADA in Eclipse after importing its source code to Eclipse:
++ Double click build.xml in RADA (just to let Eclipse know that the xml file is there).
++ Right click build.xml -> Run As -> Select the second Ant Build -> Select "rada build.xml".
++ An Edit Configuration window will appear. Make sure that the "Target execution order" is "clean, generate". BTW, you don't need the "showtree" target to build RADA; the target is just to help us play around with ANTLR and the RADA input file.
++ Click Apply. Click Run. Eclipse will start the build process. Wait until it finishes and you can start using RADA.
++ If there were no Apply and Run to click on, the target order was already good. We can close the Edit Configuration window and then do the following: Right click build.xml -> Run As -> Select the first Ant Build -> Select "rada build.xml".
+
+You need to re-run the ANT buildfile every time you make changes to RadaGrammar.g4 to make sure that all the generated ANTLR class files are up-to-date. If you only make changes to non-ANTLR-related files, you do not need to re-build; Eclipse should automatically do that for you.

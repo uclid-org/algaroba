@@ -8,3 +8,25 @@
   (pps ppx_let landmarks-ppx --auto))
  (flags
   (:standard -warn-error -A)))
+
+(executable
+ (name algaroba2)
+ (public_name algaroba2)
+ (modes exe)
+ (modules algaroba2)
+ (libraries smtlib-utils core algaroba_lib)
+ (preprocess
+  (pps ppx_let landmarks-ppx --auto))
+ (flags
+  (:standard -warn-error -A)))
+
+ (executable
+ (name reduce)
+ (public_name reduce)
+ (modes exe)
+ (modules reduce)
+ (libraries smtlib-utils core algaroba_lib)
+ (preprocess
+  (pps ppx_let landmarks-ppx --auto))
+ (flags
+  (:standard -warn-error -A)))

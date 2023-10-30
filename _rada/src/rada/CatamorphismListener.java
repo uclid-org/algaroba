@@ -1,0 +1,107 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+/*
+ * Given a body of a catamorphism, we want to determine all recursive calls to
+ * catamorphisms in the body.
+ * Example: For SumTree catamorphism, catApps will have 2 catamorphism calls
+ *   + SumTree (left foo) and
+ *   + SumTree (right foo)
+ */
+
+package rada;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.TokenStream;
+import rada.RadaGrammarParser.TermQualIdTermContext;
+
+
+public class CatamorphismListener extends RadaGrammarBaseListener { 
+  private Map<String, Catamorphism> catMap;
+  private List<CatamorphismApp> catApps;
+  private Set<String> recConditions;
+  private MyVisitor visitor;
+  
+  public CatamorphismListener(TokenStream tokens, Map<String, Catamorphism> cMap) {
+    catMap = cMap;
+    catApps = new ArrayList<CatamorphismApp>();
+    recConditions = new TreeSet<String>();
+    visitor = new MyVisitor();
+  }
+   
+  public List<CatamorphismApp> getCatApps() {
+    return catApps;
+  }
+  
+  public Set<String> getRecConditions() {
+    return recConditions;
+  }
+  
+  /** 
+   * Goes bottom up to find the condition that leads to ctx
+   */
+  public String bottomUp(RuleContext ctx) {
+    if (ctx.parent == null) {
+      return null;
+    }
+    if (ctx.parent.getChildCount() > 2) {
+      /*
+       * Check if ctx.parent is an if-then-else statement.
+       * If ctx.parent is an ite, its structure is as follows:
+       *    ctx.parent.getChild(2) --> condition of the ite
+       *    ctx.parent.getChild(3) --> then-branch
+       *    ctx.parent.getChild(4) --> else-branch
+       */
+      if (ctx.parent.getChild(0).getText().equals(Constant.LPAREN) && 
+          ctx.parent.getChild(1).getText().equals(Constant.ITE)) {
+        // Extract the condition of the if-then-else statement
+        String condition = visitor.visit(ctx.parent.getChild(2));
+        
+        // If ctx is in the 'else' branch, we need to negate the condition.
+        if (ctx.parent.getChild(4).equals(ctx)) {
+          condition = Util.makeNot(condition);
+        }
+        return Util.makeAnd(bottomUp(ctx.parent), condition);
+      }
+    }
+    return bottomUp(ctx.parent);
+  }
+
+  /**
+   * Detects calls to catamorphisms inside a body of a catamorphism
+   */
+  public void exitTermQualIdTerm(TermQualIdTermContext ctx) {
+    if (catMap.containsKey(ctx.qualidentifier().getText())) {
+      Catamorphism catamorphism = catMap.get(ctx.qualidentifier().getText());     
+      List<String> actualTerms = new ArrayList<String>();
+      for (int i = 0; i < ctx.term().size(); i++) {
+        actualTerms.add(visitor.visit(ctx.term(i)));
+      }     
+      CatamorphismApp catApp = new CatamorphismApp(catamorphism, actualTerms);
+      // Note: the last 8 lines of code are identical to those in RadaListener.java. 
+
+      // Only add this catamorphism call if it is not added before
+      if (!catApps.contains(catApp)) {
+        catApps.add(catApp);
+      }
+
+      // Go bottom-up to build a condition leading to the catamorphism call
+      String condition = bottomUp(ctx);
+        
+      // Add the condition to the set of all conditions that leads to
+      // catamorphism calls in the catamorphism body
+      if (condition != null) { 
+        recConditions.add(condition);
+      }
+    }
+  }
+}

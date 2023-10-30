@@ -118,6 +118,13 @@ module Ctx = struct
       | Some _ -> true
       | None -> false
     end
+  
+  (* get's the selectors of a given constructor*)
+  let get_selectors name =
+    begin match StrTbl.find_opt t.constructors name with
+      | Some (_, cstor) -> List.map fst cstor.cstor_args
+      | None -> []
+    end
 
   let add_selector name ty cstor selector_number = StrTbl.add t.selectors name (ty, cstor, selector_number)
   let has_selector name = 
@@ -539,6 +546,14 @@ let alt_ty_printer ty =  match ty with
   | Ty_app (s,[]) -> print_string s
   | _ -> print_string "other"
 
+let max_elt l =
+  let rec aux l m = 
+    match l with
+      | head :: tail -> aux tail (max m head)
+      | [] -> m
+  in 
+  aux l 0
+  
 
 (* will tell you if two PA.ty are equal*)
 

@@ -1,0 +1,116 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
+
+public class SolverCaller {
+  private String solver;  
+  private static int tempFileId = 1;
+  
+  public SolverCaller(String s) {
+    solver = s;
+  }
+  
+  /*
+   * Increases the id of temporary files by 1.
+   */
+  private static void increaseTempFileId() {
+    tempFileId += 1;
+  }
+
+  /*
+   * Creates a new temporary .smt file in a system temporary folder.
+   */
+  private File createTempFile() throws IOException{
+    String prefix = Constant.TEMPFILENAME + Integer.toString(tempFileId) + "_";
+    String suffix = Constant.TEMPFILEEXT;
+    File tempFile = File.createTempFile(prefix, suffix);
+    increaseTempFileId();    
+    return tempFile;
+  }
+  
+  /*
+   * Writes the content of a given string to a temporary file and returns
+   * the file.
+   */
+  private File writeToTempFile(String content) throws Exception {
+    File tempFile = null;
+    try {
+      tempFile = createTempFile();
+      PrintWriter out = new PrintWriter(tempFile);
+      out.write(content);
+      out.close();
+    } catch (IOException e) {
+      throw new Exception("I/O Error: Cannot create temporary file. " + 
+                          e.getMessage());
+    }
+    return tempFile;
+  }
+  
+  /*
+   * Asks an SMT solver to check the satisfiability of an smt file. 
+   */
+  public SolverResult executeSolver(String smt2FilePath) throws Exception {      
+    String rawResult = "";
+    ResultType type = ResultType.ERROR;    
+    ProcessBuilder builder = new ProcessBuilder(solver, smt2FilePath);
+    builder.redirectErrorStream(true);
+    try {
+      Process process = builder.start();
+      process.waitFor(); // wait until it ends
+      InputStream is = process.getInputStream();
+      InputStreamReader isr = new InputStreamReader(is);
+      BufferedReader br = new BufferedReader(isr);
+      String line;
+      while ((line = br.readLine()) != null) {
+        rawResult += line + Constant.NEWLINE;
+        if (line.equalsIgnoreCase(Constant.SAT)) {
+          type = ResultType.SAT;
+        } else if (line.equalsIgnoreCase(Constant.UNSAT)) {
+          type = ResultType.UNSAT;
+        } else if (line.equalsIgnoreCase(Constant.UNKNOWN)) {
+          type = ResultType.UNKNOWN;
+        }
+      }
+    }
+    catch (Exception e) {
+      throw new Exception("Error occured when executing solver. " + 
+                          e.getMessage());      
+    }    
+    return new SolverResult(rawResult, type);
+   }  
+  
+  /*
+   * Checks the satisfiability of a given smt2 content.
+   */
+  public SolverResult checkSat(String smt2Content)
+      throws Exception {
+    try {
+      File tempSmt2File = writeToTempFile(smt2Content);
+      if (Config.SHOW_TEMP_FILES) {
+        System.out.print("TempFile: " + tempSmt2File.getPath());
+      }
+      SolverResult result = executeSolver(tempSmt2File.getPath());
+      if (Config.SHOW_TEMP_FILES) {
+        System.out.println(" -> " + result.getType());
+      } else {
+        tempSmt2File.delete();        
+      }
+      return result;
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+}

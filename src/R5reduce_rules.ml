@@ -28,13 +28,13 @@ let add_cstors adt_ty (cstor_list: PA.cstor list) : PA.stmt list =
           let cstor_decl = PA.Stmt_decl {fun_ty_vars = []; fun_name = cstor.cstor_name; fun_args = (List.map snd cstor.cstor_args); fun_ret = adt_ty} in
           Ctx.add_tester ("is-" ^ cstor.cstor_name) adt_ty cstor;
           let tester_decl = PA.Stmt_decl {fun_ty_vars = []; fun_name = "is-" ^ cstor.cstor_name; fun_args = [adt_ty]; fun_ret = PA.Ty_bool} in
-          let testers_satisfy_constant =
+          let testers_satisfy_constant = (*NOTE: this should be doing it - idk why it's not*)
             (if (cstor.cstor_args = []) then 
-              [PA.Stmt_assert (PA.And 
+              ([PA.Stmt_assert (PA.And 
                   (List.map (fun (cstor_comp : PA.cstor) ->
                               if (cstor.cstor_name == cstor_comp.cstor_name) then (PA.App ("is-" ^ cstor_comp.cstor_name, [PA.Const cstor.cstor_name]))
                               else (PA.Not (PA.App ("is-" ^ cstor_comp.cstor_name, [PA.Const cstor.cstor_name]))))
-                              full_cstor_list))]
+                              full_cstor_list))])
               else [])
             in
           let testers_selectors_decl = add_selectors adt_ty cstor.cstor_args cstor in

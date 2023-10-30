@@ -1,0 +1,36 @@
+;(set-option :produce-models true)
+(set-logic ALL)
+;(set-info :status unsat)
+(declare-datatypes () (
+  ( RealTree
+    ( Node
+      (left RealTree)
+      (elem Real)
+      (right RealTree))
+    (Leaf))))
+
+(declare-datatypes (T1 T2) ((Pair (mk-pair (first T1) (second T2)))))
+
+; Maps a tree to a pair of boolean values, in which the first element indicates
+; if the tree is negative and the second element shows if the tree is positive.
+(define-fun-rec NegAndPosTree ((foo RealTree)) (Pair Bool Bool)
+  (ite
+    (is-Leaf foo)
+    (mk-pair true true)
+    (mk-pair
+      (and (first (NegAndPosTree (left  foo)))
+           (< (elem foo) 0.0)
+           (first (NegAndPosTree (right foo))))
+      (and (second (NegAndPosTree (left  foo)))
+           (> (elem foo) 0.0)
+           (second (NegAndPosTree (right foo)))))))
+
+; The result is unsat: a tree cannot be both positive and negative.
+; Assumption: The tree is not a Leaf
+(declare-fun l1 () RealTree)
+(declare-fun result () (Pair Bool Bool))
+(assert (not (is-Leaf l1)))
+(assert (= result (NegAndPosTree l1)))
+(assert (and (first result) (second result)))
+(check-sat)
+(exit)

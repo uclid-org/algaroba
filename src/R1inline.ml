@@ -1,4 +1,5 @@
 module PA = Smtlib_utils.V_2_6.Ast
+open R5reduce_rules
 
 exception UnsupportedQuery of string
 open Context
@@ -11,8 +12,24 @@ let rec substitute var args (sub_term : PA.term) (acc_term : PA.term)  =
       multi_substitute (List.map2 (fun x y -> (x, [], y)) args terms) sub_term
     else
       App (s, List.map (substitute var args sub_term) terms)
-  | HO_app (_, _) -> raise (UnsupportedQuery "We do not support HO_App")
-  | Match (t, branches) -> Match (substitute var args sub_term t, branches)
+  | HO_app (_, _) -> raise (UnsupportedQuery "We do not support HO_App") 
+  (* we are going to reduce matches to ite statements using selectors*)
+  (*TODO: we end up replicating match_term many times: it would be better for efficiency to not do this*)
+  | Match (t, branches) -> 
+      let match_term = substitute var args sub_term t in
+      (List.fold_left 
+        (fun (acc : PA.term -> PA.term) (branch : PA.match_branch) : (PA.term -> PA.term) -> 
+            begin match branch with 
+            | PA.Match_default term -> (fun _ -> (substitute var args sub_term term))
+            | PA.Match_case (s, vars, term) -> (fun x -> acc (PA.If (PA.App ("is-" ^ s, [match_term]), 
+                                                            (multi_substitute ((var, args, sub_term) :: (List.map2 (fun (x : string) (y : PA.term) -> (x, [], y)) 
+                                                                                                                    vars 
+                                                                                                                    (List.map (fun sel -> PA.App (sel, [match_term])) (Ctx.get_selectors s))))
+                                                                              term), 
+                                                            x)))
+            end)
+        (fun (x : PA.term) : PA.term -> x)
+        branches) match_term (*TODO: maybe there is a more elegant way to do this*)
   | If (t1, t2, t3) ->
     If (substitute var args sub_term t1, substitute var args sub_term t2, substitute var args sub_term t3)
   | Let (bindings, t) ->
@@ -35,29 +52,40 @@ let rec substitute var args (sub_term : PA.term) (acc_term : PA.term)  =
   (*TODO: throw error for forall, exists, ho_app, fun_rec*)
 (* Substitute multiple terms for their corresponding variables in a term *)
 and multi_substitute (substitutions: (string * string list * PA.term) list) term =
-  let substitutions = if (substitutions = []) then [("", [], PA.Const "")] else substitutions in (*have to add sort of a blank subtition if there are none, otherwise nothing happsn*)
+  let substitutions = if (substitutions = []) then [("__shouldnotoccur__", [], PA.Const "__shouldnotoccur__")] else substitutions in (*have to add sort of a blank subtition if there are none, otherwise nothing happsn*)
   List.fold_left
     (fun acc_term (var, args, sub_term) -> substitute var args sub_term acc_term)
     term substitutions
 
 
+(*TODO: Should I even inline anymore?? -> I guess I'll keep it right now but it seems like it could screw up efficienct*)
 let inline_statements stmts =
-  let rec aux defs acc = function
-    | [] -> List.rev acc
+  let rec aux defs acc start_statements = function
+    | [] -> start_statements, List.rev acc
     | stmt :: rest ->
       begin
         match stmt with
+        | PA.Stmt_set_info _ -> aux defs acc (start_statements @ [stmt]) rest
+        | PA.Stmt_set_logic _ -> aux defs acc (start_statements @ [stmt]) rest
+        | PA.Stmt_data data -> let reduced_adt_decl_sorts, reduced_adt_decl_funs = (add_adt_list_to_context data) in
+                                (aux defs acc (start_statements @ reduced_adt_decl_sorts @ reduced_adt_decl_funs) rest)
         | PA.Stmt_fun_def fun_def ->
-          aux ((fun_def.fr_decl.fun_name, (List.map fst fun_def.fr_decl.fun_args), fun_def.fr_body) :: defs) acc rest
-        | Stmt_fun_rec _ -> raise (UnsupportedQuery "We do not support Stmt_fun_rec")
+          let inlined_definition_body = multi_substitute defs fun_def.fr_body in
+          aux ((fun_def.fr_decl.fun_name, (List.map fst fun_def.fr_decl.fun_args), inlined_definition_body) :: defs) acc start_statements rest 
+        | Stmt_fun_rec fun_def ->
+          (*TODO: add implementation for this*)
+            (* let new_fun_decl = string PA.fun_decl {fun_ty_vars = fun_def.fr_decl.fun_ty_vars, fun_name = fun_def.fr_decl.fun_name, fun_args = List.map fst fun_def.fr_decl.fun_args, fun_ret = fun_def.fr_decl.fun_ret} in
+            let new_fun_decl = PA.Stmt_decl new_fun_decl in  *)
+
+          raise (UnsupportedQuery "We do not support Stmt_fun_rec")
         | Stmt_funs_rec _ -> raise (UnsupportedQuery "We do not support funs_rec_def")
         | Stmt_assert term ->
           let inlined_term = multi_substitute defs term in
-          aux defs (PA.Stmt_assert (inlined_term) :: acc) rest
-        | _ -> aux defs (stmt :: acc) rest
+          aux defs (PA.Stmt_assert (inlined_term) :: acc) start_statements rest
+        | _ -> aux defs (stmt :: acc) start_statements rest 
       end
   in
-  aux [] [] stmts
+  aux [] [] [] stmts
 
 
 

@@ -1,0 +1,193 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+
+public class Util {
+  public static String joinStringsWithSeparator(List<String> l, String sep) {
+    if (l.size() == 0) {
+      return "";
+    }    
+    String res = l.get(0);
+    for (int i = 1; i < l.size(); i++) {
+      res += sep + l.get(i);
+    }
+    return res;
+  }
+  
+  public static String joinStringsWithSpaceSeparator(List<String> l) {
+    return joinStringsWithSeparator(l, Constant.SPACE);
+  }
+  
+  public static String joinStringsWithNewLineSeparator(List<String> l) {
+    return joinStringsWithSeparator(l, Constant.NEWLINE);
+  }
+  
+  public static String makeAnd(String expr1, String expr2) {
+    assert(expr1 != null || expr2 != null);
+    if (expr1 == null) {
+      return expr2;
+    }
+    if (expr2 == null) {
+      return expr1;
+    }
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.AND,
+        expr1,
+        expr2,
+        Constant.RPAREN));    
+  }
+  
+  public static String makeOr(String expr1, String expr2) {
+    assert(expr1 != null || expr2 != null);
+    if (expr1 == null) {
+      return expr2;
+    }
+    if (expr2 == null) {
+      return expr1;
+    }
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.OR,
+        expr1,
+        expr2,
+        Constant.RPAREN));    
+  }
+    
+  public static String makeOr(Set<String> exprs) {
+    assert(exprs.size() > 0);
+    String res = null;
+    for (String expr : exprs) {
+      res = makeOr(expr, res);
+    }
+    return res;
+  }
+  
+  public static String makeNot(String expr) {
+    assert(expr != null);
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.NOT,
+        expr,
+        Constant.RPAREN));    
+  }
+  
+  public static String makeAssert(String expr) {
+    assert(expr != null);
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.ASSERT,
+        expr,
+        Constant.RPAREN));
+  }
+  
+  public static String makeEqual(String expr1, String expr2) {
+    assert(expr1 != null && expr2 != null);
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.EQUAL,
+        expr1,
+        expr2,
+        Constant.RPAREN));
+  }
+  
+  public static String makeCatApp(String catName, List<String> actualTerms) {
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        catName,
+        Util.joinStringsWithSpaceSeparator(actualTerms),
+        Constant.RPAREN));    
+  }
+  
+  public static String makeDeclareFunCat(String catName, List<Argument> formalArgs,
+                                                         String outputSort) {
+    // extract the input sorts from the list of arguments
+    List<String> inputSorts = new ArrayList<String>();
+    for (Argument argument : formalArgs) {
+      inputSorts.add(argument.getSort());
+    }
+    
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.DECLAREFUN,
+        catName,
+        Constant.LPAREN,
+        Util.joinStringsWithSpaceSeparator(inputSorts), //TODO(hungpt): Test
+        Constant.RPAREN,
+        outputSort,
+        Constant.RPAREN));
+  }
+  
+  public static String makeCheckSat() {
+    return Util.joinStringsWithSpaceSeparator(Arrays.asList(
+        Constant.LPAREN,
+        Constant.CHECKSAT,
+        Constant.RPAREN));    
+  }
+  
+  /*
+   * Substitutes formal arguments by corresponding actual terms in an expression, which is also a term 
+   */
+  public static String substitute(List<Argument> formalArgs,
+                                  List<String> actualTerms, String exprTerm) {
+    CharStream charStream = new ANTLRInputStream(exprTerm);
+    RadaGrammarLexer lexer = new RadaGrammarLexer(charStream);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    RadaGrammarParser parser = new RadaGrammarParser(tokens);
+    ParseTree tree = parser.term();
+    ParseTreeWalker walker = new ParseTreeWalker();
+    SubstitutionListener listener = new SubstitutionListener(
+        tokens, formalArgs, actualTerms);
+    walker.walk(listener, tree);
+    return listener.getRewriter().getText();
+  }
+  
+  /*
+   * Checks if an external program exists or not.
+   */
+  public static boolean programExists(String program) {    
+    try {
+      Runtime rt = Runtime.getRuntime();
+      rt.exec(program);
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
+  
+  /*
+   * Checks if a file exists or not.
+   */
+  public static boolean fileExists(String filePath) {   
+    File file = new File(filePath);
+    if (file.exists()) {
+      return true;
+    }
+    return false;
+  }
+  
+  /*
+   * Detects whether a solver is CVC4 or not.
+   */
+  public static boolean isCVC4(String solver) {
+    return solver.toLowerCase().contains(Constant.CVC4);
+  }
+}

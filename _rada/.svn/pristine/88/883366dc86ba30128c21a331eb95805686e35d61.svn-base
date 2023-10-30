@@ -1,0 +1,53 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+public class CheckSatScanner {  
+  public static List<String> getProcessedContents(String inputFile) throws Exception {   
+    // Parse the input file   
+    RadaGrammarLexer lexer = new RadaGrammarLexer(
+        new ANTLRFileStream(inputFile));
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    RadaGrammarParser parser = new RadaGrammarParser(tokens);
+    ParseTree tree = parser.program();  
+    ParseTreeWalker walker = new ParseTreeWalker();
+    CheckSatListener listener = new CheckSatListener(tokens);
+    try {
+      walker.walk(listener, tree);
+    } catch (Exception e) {
+      throw new Exception("Error when parsing " + inputFile + ".");
+    }
+
+    // Calculates the position of "check-sat" in the parse tree
+    List<Token> checkSatTokens = listener.getCheckSatToken();
+    if (checkSatTokens.isEmpty()) {
+      throw new Exception("There is no check-sat in the input file.");
+    }
+        
+    // Calculates the position of the last token in the parse tree
+    Token programStopToken = listener.getProgramStopToken();
+    
+    List<String> contents = new ArrayList<String>();
+    for (Token checkSatToken : checkSatTokens) {
+      contents.add(listener.getRewriter().getText());
+
+      // Remove the checkSatToken from the input stream
+      listener.getRewriter().delete(checkSatToken, checkSatToken);
+    }
+    return contents;
+  }
+}

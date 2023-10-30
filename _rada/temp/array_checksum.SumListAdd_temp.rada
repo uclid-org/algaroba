@@ -1,0 +1,256 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Datatype declarations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(declare-datatypes () 
+  ((ArrayList (ArrayList_nil) (ArrayList_cons (destArrayList_cons ArrayList_cons_recd)))
+
+   (ArrayList_cons_recd (ArrayList_cons_recd (ArrayList_cons_recd_hd (Array Int Int) )
+  (ArrayList_cons_recd_tl ArrayList)))
+))
+
+(declare-datatypes () 
+  ((ArrayTree (ArrayTree_Leaf (destArrayTree_Leaf (Array Int Int) )) (ArrayTree_Node (destArrayTree_Node ArrayTree_Node_recd)))
+
+   (ArrayTree_Node_recd (ArrayTree_Node_recd (ArrayTree_Node_recd_left ArrayTree)
+  (ArrayTree_Node_recd_elem Int) (ArrayTree_Node_recd_right ArrayTree)))
+))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Uninterpreted symbols
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(declare-fun A () (Array Int Int))
+(declare-fun L1 () ArrayList)
+(declare-fun L2 () ArrayList)
+(declare-fun t () ArrayTree)
+(declare-fun v0 () ArrayList)
+(declare-fun v1 () ArrayList)
+;;; (declare-fun SumElementsFn ((Array Int Int)) Int)
+(declare-fun SumListFn (ArrayList) Int)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Defined symbols
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-fun SumElementsFn ((A (Array Int Int))) Int
+  (+ (+ (+ (+ (select A 0) (select A 1)) (select A 2)) (select A 3)) (select A 4)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Catamorphisms
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-catamorphism concatFn ((L1 ArrayList) (L2 ArrayList)) ArrayList
+  (ite (is-ArrayList_nil L1) L2 (ArrayList_cons (ArrayList_cons_recd (ArrayList_cons_recd_hd (destArrayList_cons L1)) (concatFn (ArrayList_cons_recd_tl (destArrayList_cons L1)) L2)))))
+
+(define-catamorphism TreeListFn ((t ArrayTree)) ArrayList
+  (ite (is-ArrayTree_Leaf t) (ArrayList_cons (ArrayList_cons_recd (destArrayTree_Leaf t) ArrayList_nil)) (concatFn (TreeListFn (ArrayTree_Node_recd_left (destArrayTree_Node t))) (TreeListFn (ArrayTree_Node_recd_right (destArrayTree_Node t))))))
+
+(define-catamorphism SumTreeFn ((t ArrayTree)) Int
+  (ite (is-ArrayTree_Leaf t) (SumElementsFn (destArrayTree_Leaf t)) (+ (SumTreeFn (ArrayTree_Node_recd_left (destArrayTree_Node t))) (SumTreeFn (ArrayTree_Node_recd_right (destArrayTree_Node t))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Goals
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+; ; 1 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 0) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 2 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 1) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 3 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 2) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 4 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 3) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 5 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 4) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 6 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons (concatFn v1 v0)))) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 7 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 0) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ; 8 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 1) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ;9 - UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 2) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ;10 UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 3) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ;11 UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 4) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ;12 UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v0))) 0))))))
+; (check-sat)
+; ;;(pop)
+
+; ;13 UNSAT
+; ;;(push)
+; (assert (and (is-ArrayList_nil v1) (and (not (is-ArrayList_nil v0)) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v0)))) (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons (concatFn v1 v0)))))))))))
+; (check-sat)
+; ;;(pop)
+
+; ;14 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 0) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;15 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 1) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;16 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 2) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;17 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 3) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;18 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 4) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+;19 UNKNOWN - TODO later
+; (error "line 38 column 82: invalid named expression, declaration already defined with this name SumElementsFn")
+; unknown
+;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) 0)))))))
+(check-sat)
+;;(pop)
+
+; ;20 UNKNOWN - TODO later
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (is-ArrayList_nil v0) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1)))) (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons (concatFn v1 v0))))))))))))
+; (check-sat)
+; ;;(pop)
+
+; ;21 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 0) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;22 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 1) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;23 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 2) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;24 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 3) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;25 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 4) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;26 UNKNOWN
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;27 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 0) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;28 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 1) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;29 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 2) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;30 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 3) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;31 UNSAT
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 4) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;32 UNKNOWN
+; ;;(push)
+; (assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (is-ArrayList_nil (concatFn v1 v0)) (not (= (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v0))) 0)))))))
+; (check-sat)
+; ;;(pop)
+
+; ;33 SAT
+; ;;(push)
+(assert (and (forall ((v0 ArrayList)) (= (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1))) (SumListFn v0)) (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons v1)) v0)))) (and (not (is-ArrayList_nil v1)) (and (not (is-ArrayList_nil v0)) (and (not (is-ArrayList_nil (concatFn v1 v0))) (not (= (+ (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons v1)) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v1)))) (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons v0)) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons v0))))) (+ (+ (+ (+ (+ (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 0) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 1)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 2)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 3)) (select (ArrayList_cons_recd_hd (destArrayList_cons (concatFn v1 v0))) 4)) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons (concatFn v1 v0))))))))))))
+(check-sat)
+; ;;(pop)

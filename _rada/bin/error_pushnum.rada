@@ -1,0 +1,7 @@
+(push 1)(assert (= 1 1))(check-sat)(pop)
+(assert true)
+(push)(assert (= 2 2))(check-sat)(pop)
+(assert false)
+(push)(assert (= 3 3))(check-sat)(pop)
+(assert true)
+(push)(assert (= 4 4))(check-sat)(pop)

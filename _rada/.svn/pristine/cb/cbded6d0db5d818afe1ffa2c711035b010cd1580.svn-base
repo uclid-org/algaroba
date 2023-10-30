@@ -1,0 +1,66 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+
+public class rada {
+  
+  private static boolean hasShowTempFiles(String[] args) {
+    for (String arg : args) {
+      if (arg.equals("--showtempfiles")) {
+        return true;
+      }      
+    }
+    return false;
+  }
+
+  private static boolean hasVerbose(String[] args) {
+    for (String arg : args) {
+      if (arg.equals("--verbose")) {
+        return true;
+      }      
+    }
+    return false;
+  }   
+    
+  public static void main(String[] args) throws Exception {
+    if (args.length < 3 || !args[0].equals("--solver")) {
+      System.out.println("Error: Command invalid.");
+    } else {
+      String solverName = args[1];
+      String filePath = args[2];      
+      boolean showTempFiles = hasShowTempFiles(args);
+      boolean verbose = hasVerbose(args);
+      if (!Util.programExists(solverName)) {
+        // Check whether the solver is in the system path or not
+        System.out.println("Solver " + solverName + " is not in system path.");
+      } else if (!Util.fileExists(filePath)) {
+        // Check if the input file exists or not
+        System.out.println("File " + filePath + " does not exist.");
+      } else {
+        // Parameters seemed valid. Start the unrolling decision procedure.
+        long startTime = System.currentTimeMillis();
+        UnrollingProcedure procedure = new UnrollingProcedure();;
+        RadaResult result = procedure.checkSat(filePath, solverName, showTempFiles, -1);
+        System.out.println(result.getResultType());
+        if (result.getResultType() == ResultType.ERROR && result.getMessage() != null) {
+          System.out.println(result.getMessage());          
+        }
+        if (verbose) {
+          // If in verbose mode, print some extra information.
+          if (result.getResultType() != ResultType.ERROR) {
+            System.out.println("Number of unrollings: " + result.getNumUnrollings());
+          }
+          long endTime   = System.currentTimeMillis();
+          long totalTime = endTime - startTime;
+          System.out.println("Time (s) = " + (float)totalTime / 1000);
+        }
+      }
+    }
+  }
+}

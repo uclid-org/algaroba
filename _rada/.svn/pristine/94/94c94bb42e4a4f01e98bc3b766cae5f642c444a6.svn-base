@@ -1,0 +1,650 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+
+public class UnrollingProcedureTest {
+  private UnrollingProcedure procedure;
+  private String solver;
+  private String testDir;
+  final String Z3 = "z3";
+  final String CVC4 = "cvc4";
+  
+  @Before
+  public void setUp() throws Exception {
+    solver = Z3;            // NOTE: Change it to the solver in your system
+    Config.SHOW_TEMP_FILES = false;
+    procedure = new UnrollingProcedure();
+    testDir = "test/";    
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
+  
+  /*
+   * Test all benchmark examples mentioned in the Rada paper
+   */
+  @Test
+  public void testCheckSatStringStringSumtree01() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree02() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+ 
+  @Test
+  public void testCheckSatStringStringSumtree03() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree03.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 8);
+    assertEquals(result.getNumUnrollings(), 4);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree04() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree04.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 1);
+    assertEquals(result.getNumUnrollings(), 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree05() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree05.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree06() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree06.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree07() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree07.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 2);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree08() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree08.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 1);
+    assertEquals(result.getNumUnrollings(), 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree09() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree09.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 1);
+    assertEquals(result.getNumUnrollings(), 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree10() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree10.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 2);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree11() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree11.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree12() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree12.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 1);
+    assertEquals(result.getNumUnrollings(), 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree13() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree13.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 2);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree14() {
+    RadaResult result = procedure.checkSat(testDir + "sumtree14.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMutrec1() {
+    RadaResult result = procedure.checkSat(testDir + "mut_rec1.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMutrec3() {
+    RadaResult result = procedure.checkSat(testDir + "mut_rec3.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMutrec4() {
+    RadaResult result = procedure.checkSat(testDir + "mut_rec4.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect01() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect02() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect03() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_03.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect04() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_04.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect05() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_05.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect06() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_06.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect07() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_07.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect08() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_08.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect09() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_09.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect10() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_10.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect11() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_11.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect12() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_12.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect13() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_13.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect14() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_14.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect15() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_15.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect16() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_16.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);    
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect17() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "Email_Guard_Correct_17.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringNegativePositive01() {
+	  if (solver.equals(Z3)) {
+	    // Currently this test is only used for Z3 since CVC4 cannot handle it.
+	    RadaResult result = 
+	            procedure.checkSat(testDir + "negative_positive01.rada", solver); 
+	    assertEquals(result.getResultType(), ResultType.UNSAT);
+	    assertEquals(result.getSolverResults().size(), 3);
+	    assertEquals(result.getNumUnrollings(), 1);
+	  }
+  }
+  
+  @Test
+  public void testCheckSatStringStringNegativePositive02() {
+      if (solver.equals(Z3)) {
+        // Currently this test is only used for Z3 since CVC4 cannot handle it.
+        RadaResult result = 
+                procedure.checkSat(testDir + "negative_positive02.rada", solver); 
+        assertEquals(result.getResultType(), ResultType.UNSAT);
+        assertEquals(result.getSolverResults().size(), 13);
+        assertEquals(result.getNumUnrollings(), 6);
+      }
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMax01() {
+      if (solver.equals(Z3)) {
+        // Currently this test is only used for Z3 since CVC4 cannot handle it.
+        RadaResult result = 
+                procedure.checkSat(testDir + "min_max01.rada", solver); 
+        assertEquals(result.getResultType(), ResultType.UNSAT);
+        assertEquals(result.getSolverResults().size(), 3);
+        assertEquals(result.getNumUnrollings(), 1);
+      }
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMax02() {
+      if (solver.equals(Z3)) {
+        // Currently this test is only used for Z3 since CVC4 cannot handle it.
+        RadaResult result = 
+                procedure.checkSat(testDir + "min_max02.rada", solver); 
+        assertEquals(result.getResultType(), ResultType.UNSAT);
+        assertEquals(result.getSolverResults().size(), 13);
+        assertEquals(result.getNumUnrollings(), 6);
+      }
+  }
+  
+  @Test
+  public void testCheckSatStringStringArrayLeaf01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "array_leaf01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 5);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringArrayLeaf02() {    
+    RadaResult result = 
+            procedure.checkSat(testDir + "array_leaf02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinSizeSum01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "min_size_sum01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 9);
+    assertEquals(result.getNumUnrollings(), 4);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinSizeSum02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "min_size_sum02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 6);
+    assertEquals(result.getNumUnrollings(), 3);
+  }
+
+  @Test
+  public void testCheckSatStringStringMinMaxSum01() {    
+    RadaResult result = 
+            procedure.checkSat(testDir + "min_max_sum01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 9);
+    assertEquals(result.getNumUnrollings(), 4);    
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMaxSum02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "min_max_sum02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 6);
+    assertEquals(result.getNumUnrollings(), 3);
+  }  
+  
+  @Test
+  public void testCheckSatStringStringMinMaxSum03() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "min_max_sum03.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 8);
+    assertEquals(result.getNumUnrollings(), 4);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMaxSum04() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "min_max_sum04.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 8);
+    assertEquals(result.getNumUnrollings(), 4);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMaxSum05() {
+    if (solver.equals(Z3)) {
+      // Only use Z3 for this test because CVC4 can spend too much time solving it.
+      RadaResult result = 
+              procedure.checkSat(testDir + "min_max_sum05.rada", solver); 
+      assertEquals(result.getResultType(), ResultType.UNSAT);
+      assertEquals(result.getSolverResults().size(), 11);
+      assertEquals(result.getNumUnrollings(), 5);
+    }
+  }
+  
+  @Test
+  public void testCheckSatStringStringForall01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "forall01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 14);
+    assertEquals(result.getNumUnrollings(), 7);
+  }  
+  
+  @Test
+  public void testCheckSatStringStringForall02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "forall02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 13);
+    assertEquals(result.getNumUnrollings(), 6);
+  }
+  
+  @Test
+  public void testCheckSatStringStringExists01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "exists01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 2);
+    assertEquals(result.getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringExists02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "exists02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 3);
+    assertEquals(result.getNumUnrollings(), 1);
+  }  
+  
+  @Test
+  public void testCheckSatStringStringMember01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "member01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 10);
+    assertEquals(result.getNumUnrollings(), 5);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMember02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "member02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 13);
+    assertEquals(result.getNumUnrollings(), 6);
+  }    
+  
+  @Test
+  public void testCheckSatStringStringNGN01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "ngn01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 14);
+    assertEquals(result.getNumUnrollings(), 7);
+  }
+  
+  @Test
+  public void testCheckSatStringStringNGN02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "ngn02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 9);
+    assertEquals(result.getNumUnrollings(), 4);
+  }    
+
+  @Test
+  public void testCheckSatStringStringNGNNGN01() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "ngn_ngn01.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 14);
+    assertEquals(result.getNumUnrollings(), 7);
+  }    
+  
+  @Test
+  public void testCheckSatStringStringNGNNGN02() {
+    RadaResult result = 
+            procedure.checkSat(testDir + "ngn_ngn02.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.UNSAT);
+    assertEquals(result.getSolverResults().size(), 9);
+    assertEquals(result.getNumUnrollings(), 4);
+  }  
+
+  /*
+   * Above are unit tests for well-designed examples that would be published in our paper.
+   * Below are unit tests for bad examples that are only used for testing purposes.
+   */
+  
+  /*
+   * Test when we use :post-cond.
+   */
+  @Test
+  public void testCheckSatStringStringSumtree01WithPostCond() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "sumtree01_with_postcond.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  /*
+   * Test when we use :post-cond and multiple arguments
+   */
+  @Test
+  public void testCheckSatStringStringSumtree01WithArguments() {
+    RadaResult result = 
+        procedure.checkSat(testDir + "sumtree01_with_arguments.rada", solver); 
+    assertEquals(result.getResultType(), ResultType.SAT);
+    assertEquals(result.getSolverResults().size(), 4);
+    assertEquals(result.getNumUnrollings(), 2);
+  }
+  
+  /*
+   * Test when the maximum number of Unrolls is used and the result is UNKNOWN.
+   */
+  @Test
+  public void testCheckSatStringStringIntUnknown() {
+    int maxUnrolls = 1;
+    RadaResult result = 
+        procedure.checkSat(testDir + "sumtree01.rada", solver, maxUnrolls); 
+    assertEquals(result.getResultType(), ResultType.UNKNOWN);
+  }  
+  
+  /*
+   * Test when the solver does not exist.
+   */
+  @Test
+  public void testCheckSatStringStringNonexistingSolver() {
+    String nonExistingSolver = "noname";
+    RadaResult result = 
+        procedure.checkSat(testDir + "sumtree01.rada", nonExistingSolver); 
+    assertEquals(result.getResultType(), ResultType.ERROR);
+  }   
+
+  /*
+   * Test when the input file does not exist.
+   */
+  @Test
+  public void testCheckSatStringStringNonexistingFilePath() {
+    String nonExistingFilePath = "non/existing/path";
+    RadaResult result = procedure.checkSat(nonExistingFilePath, solver); 
+    assertEquals(result.getResultType(), ResultType.ERROR);
+  }
+    
+  /*
+   * Test when the input file does not have "check-sat".
+   */
+  @Test
+  public void testCheckSatStringStringNoCheckSat() {
+    String noCheckSatFilePath = "error_nochecksat.rada";
+    RadaResult result = procedure.checkSat(noCheckSatFilePath, solver); 
+    assertEquals(result.getResultType(), ResultType.ERROR);
+  }
+  
+  /*
+   * Test when the input file is unparsable.
+   */
+  @Test
+  public void testCheckSatStringStringUnparsable() {
+    String unparsableFilePath = "error_unparsable.rada";
+    RadaResult result = procedure.checkSat(unparsableFilePath, solver); 
+    assertEquals(result.getResultType(), ResultType.ERROR);
+  }
+  
+  /*
+   * Test when the the number of formal arguments and that of actual ones are mismatched.
+   */
+  @Test
+  public void testCheckSatStringStringArgumentMismatch() {
+    String filePath = "error_argument_mismatch.rada";
+    RadaResult result = procedure.checkSat(filePath, solver); 
+    assertEquals(result.getResultType(), ResultType.ERROR);
+  }  
+  
+  /*
+   * Test when the the number of formal arguments and that of actual ones are mismatched.
+   */
+  @Test
+  public void testCheckSatStringStringDuplicateArguments() {
+    String filePath = "error_duplicate_arguments.rada";
+    RadaResult result = procedure.checkSat(filePath, solver); 
+    assertEquals(result.getResultType(), ResultType.ERROR);
+  }  
+}

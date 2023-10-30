@@ -1,0 +1,109 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class CatamorphismApp {
+  private Catamorphism catamorphism;    
+  private List<String> actualTerms;          // actual parameters of the catamorphism
+  
+  public CatamorphismApp(Catamorphism cat, List<String> actual) {
+    catamorphism = cat;
+    actualTerms = actual;
+  }
+    
+  public Catamorphism getCatamorphism() {
+    return catamorphism;
+  }
+  
+  public List<String> getActualTerms() {
+    return actualTerms;
+  }
+    
+  @Override
+  public boolean equals(Object catApp) {
+    if (catApp == null) {
+      return false;
+    }
+    if (catApp == this) {
+      return true;
+    }
+    if (!(catApp instanceof CatamorphismApp)) {
+      return false;    
+    }    
+    CatamorphismApp myCatApp = (CatamorphismApp)catApp;
+    return catamorphism.getName().equals(myCatApp.getCatamorphism().getName())
+        && actualTerms.equals(myCatApp.getActualTerms());
+  }
+  
+  @Override
+  public String toString() {
+    return catamorphism.toString() + " " + actualTerms;
+  }
+  
+  /*
+   * Generates an assertion for a catamorphism application.
+   * 
+   * Example: (= assert (Sum(foo)) (+ Sum((left foo)) Sum((right foo))))
+   */
+  public String createFullAssertCatApp() {    
+    return Util.makeAssert(Util.makeEqual(
+        Util.makeCatApp(catamorphism.getName(), actualTerms),
+        Util.substitute(
+            catamorphism.getFormalArgs(), actualTerms, catamorphism.getBody())));
+  }
+  
+  /* 
+   * Gets the list of catamorphism applications that appear in the body of a
+   * catamorphism application.
+   * 
+   * Example: SumTree(foo) has SumTree((left foo)) and SumTree((right foo)).
+   * Therefore, SumTree((left foo)) leads to SumTree((left (left foo)) and
+   * SumTree((right (right foo)).
+   */
+  public List<CatamorphismApp> getChildCatApps() {
+    List<CatamorphismApp> l = new ArrayList<CatamorphismApp>();
+    for (CatamorphismApp formalCatApp: catamorphism.getCatApps()) {
+      
+      List<String> actualTermsOfActualCatApp = new ArrayList<String>();
+      for (int i = 0; i < formalCatApp.getActualTerms().size(); i++) {
+        actualTermsOfActualCatApp.add(
+            Util.substitute(catamorphism.getFormalArgs(),              
+                            actualTerms,
+                            formalCatApp.getActualTerms().get(i)));
+      }
+            
+      CatamorphismApp actualCatApp = new CatamorphismApp(
+          formalCatApp.getCatamorphism(), actualTermsOfActualCatApp);       
+      l.add(actualCatApp);
+    }
+    return l;
+  }
+  
+  // Sanity check the catamorphism app. Throws exceptions if fail.
+  public void sanityCheck() throws Exception {
+    if (catamorphism.getFormalArgs().size() != actualTerms.size()) {
+      throw new Exception(
+          "Error: Catamorphism " + catamorphism.getName() + ": " +
+          " the number of formal arguments " +
+          catamorphism.getFormalArgs() + 
+          " is not equal to that of actual terms " + actualTerms);
+    }
+  }
+  
+  // Sanity check a list of catamorphism apps. Throws exceptions if fail.
+  public static void sanityCheckCatamorphismApps(List<CatamorphismApp> catApps)
+      throws Exception {
+    for (CatamorphismApp catApp : catApps) {
+      catApp.sanityCheck();
+    }
+  }
+}

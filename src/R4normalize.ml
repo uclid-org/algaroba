@@ -11,7 +11,7 @@ let negate (not_parity: bool) (term: PA.term) =
 let rec normalize (not_parity: bool)  (term : PA.term) =
   match term with
   | HO_app (_, _) -> raise (UnsupportedQuery "We do not support HO_App")
-  | Match _ ->raise (UnsupportedQuery "We do not currently support Match")
+  | Match _ -> raise (UnsupportedQuery "We should have reduced Match to ITE by now")
   (* | If _ -> raise (UnsupportedQuery "If statements should be handled by flatten step") *)
   | Let _ -> raise (UnsupportedQuery "If statements should be handled by inline step")
   | Imply _ -> raise (UnsupportedQuery "Imply statements should be handled by flatten step")

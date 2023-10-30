@@ -18,11 +18,11 @@ run_pre_solvers= True
 princess_path = "princess"
 cvc5_path = "cvc5"
 z3_path = "z3"
-algaroba_flags = {"algaroba": []}
+algaroba_flags = {"algaroba2": []}
 
 
 # A function that runs the Ocaml that does the reductions for us
-def run_ocaml_on_smt2(smt2_file_path, ocaml_executable_path = "_build/default/bin/algaroba.exe", flags = []):
+def run_ocaml_on_smt2(smt2_file_path, ocaml_executable_path = "_build/default/bin/algaroba2.exe", flags = []):
     cmd = [ocaml_executable_path] + flags + [smt2_file_path]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout = reduction_timeout)
@@ -53,7 +53,7 @@ if test_case == "Barrett":
     typedfolder5 = "test/QF_DT2/20172804-Barrett/barrett-jsat/typed/v5/"
     typedfolder10 = "test/QF_DT2/20172804-Barrett/barrett-jsat/typed/v10/"
 
-    folders = {"test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/": glob.glob(folder1 + "*.smt2")[:10],
+    folders = {"test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/": glob.glob(folder1 + "*.smt2"),
             "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v2/": glob.glob(folder2 + "*.smt2"),
             "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v3/": glob.glob(folder3 + "*.smt2"),
             "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v5/": glob.glob(folder5 + "*.smt2"),

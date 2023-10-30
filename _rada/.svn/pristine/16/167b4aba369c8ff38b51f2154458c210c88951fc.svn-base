@@ -1,0 +1,681 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+
+package rada;
+
+import static org.junit.Assert.*;
+
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+
+public class radaTest {
+  private String testDir;
+  final String Z3 = "z3";
+  final String CVC4 = "cvc4";
+  
+  private SolverParameters parms = new SolverParameters();
+  
+  @Before
+  public void setUp() throws Exception {
+    parms.solverName = CVC4;            // NOTE: Change it to the solver in your system
+    parms.showTempFiles = false;
+    testDir = "test/";
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
+  
+  public void checkTestOk(String fName, ResultType expected, 
+                          int resultsSize, int numUnrollings) {
+    parms.filePath = testDir + fName;
+    List<RadaResult> results = rada.run(parms); 
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), expected);
+    assertEquals(results.get(0).getSolverResults().size(), resultsSize);
+    assertEquals(results.get(0).getNumUnrollings(), numUnrollings);
+  }
+
+  /**
+   * Test all benchmark examples mentioned in the Rada paper
+   */
+  @Test
+  public void testCheckSatStringStringSumtree01() {
+    checkTestOk("sumtree01.rada", ResultType.SAT, 4, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree02() {
+    checkTestOk("sumtree02.rada", ResultType.SAT, 4, 2);
+  }
+ 
+  @Test
+  public void testCheckSatStringStringSumtree03() {
+    checkTestOk("sumtree03.rada", ResultType.SAT, 8, 4);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree04() {
+    checkTestOk("sumtree04.rada", ResultType.UNSAT, 1, 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree05() {
+    checkTestOk("sumtree05.rada", ResultType.SAT, 4, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree06() {
+    checkTestOk("sumtree06.rada", ResultType.SAT, 4, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree07() {
+    checkTestOk("sumtree07.rada", ResultType.SAT, 2, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree08() {
+    checkTestOk("sumtree08.rada", ResultType.UNSAT, 1, 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree09() {
+    checkTestOk("sumtree09.rada", ResultType.UNSAT, 1, 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree10() {
+    checkTestOk("sumtree10.rada", ResultType.SAT, 2, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree11() {
+    checkTestOk("sumtree11.rada", ResultType.SAT, 4, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree12() {
+    checkTestOk("sumtree12.rada", ResultType.UNSAT, 1, 0);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree13() {
+    checkTestOk("sumtree13.rada", ResultType.SAT, 2, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringSumtree14() {
+    checkTestOk("sumtree14.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMutrec1() {
+    checkTestOk("mut_rec1.rada", ResultType.SAT, 4, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMutrec3() {
+    checkTestOk("mut_rec3.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMutrec4() {
+    checkTestOk("mut_rec4.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect01() {
+    checkTestOk("Email_Guard_Correct_01.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect02() {
+    checkTestOk("Email_Guard_Correct_02.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect03() {
+    checkTestOk("Email_Guard_Correct_03.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect04() {
+    checkTestOk("Email_Guard_Correct_04.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect05() {
+    checkTestOk("Email_Guard_Correct_05.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect06() {
+    checkTestOk("Email_Guard_Correct_06.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect07() {
+    checkTestOk("Email_Guard_Correct_07.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect08() {
+    checkTestOk("Email_Guard_Correct_08.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect09() {
+    checkTestOk("Email_Guard_Correct_09.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect10() {
+    checkTestOk("Email_Guard_Correct_10.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect11() {
+    checkTestOk("Email_Guard_Correct_11.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect12() {
+    checkTestOk("Email_Guard_Correct_12.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect13() {
+    checkTestOk("Email_Guard_Correct_13.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect14() {
+    checkTestOk("Email_Guard_Correct_14.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect15() {
+    checkTestOk("Email_Guard_Correct_15.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect16() {
+    checkTestOk("Email_Guard_Correct_16.rada", ResultType.UNSAT, 3, 1);
+  }
+  
+  @Test
+  public void testCheckSatStringStringEmailGuardCorrect17() {
+    checkTestOk("Email_Guard_Correct_17.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testRunEmailGuardCorrectAll() {
+    parms.filePath = testDir + "Email_Guard_Correct_All.rada";  
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 17);
+    
+    assertEquals(results.get(0).getResultType(), ResultType.UNSAT);
+    assertEquals(results.get(0).getSolverResults().size(), 3);
+    assertEquals(results.get(0).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(1).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(1).getSolverResults().size(), 3);
+    assertEquals(results.get(1).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(2).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(2).getSolverResults().size(), 3);
+    assertEquals(results.get(2).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(3).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(3).getSolverResults().size(), 5);
+    assertEquals(results.get(3).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(4).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(4).getSolverResults().size(), 3);
+    assertEquals(results.get(4).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(5).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(5).getSolverResults().size(), 3);
+    assertEquals(results.get(5).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(6).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(6).getSolverResults().size(), 5);
+    assertEquals(results.get(6).getNumUnrollings(), 2);    
+
+    assertEquals(results.get(7).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(7).getSolverResults().size(), 3);
+    assertEquals(results.get(7).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(8).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(8).getSolverResults().size(), 5);
+    assertEquals(results.get(8).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(9).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(9).getSolverResults().size(), 3);
+    assertEquals(results.get(9).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(10).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(10).getSolverResults().size(), 5);
+    assertEquals(results.get(10).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(11).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(11).getSolverResults().size(), 5);
+    assertEquals(results.get(11).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(12).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(12).getSolverResults().size(), 3);
+    assertEquals(results.get(12).getNumUnrollings(), 1);    
+    
+    assertEquals(results.get(13).getResultType(), ResultType.UNSAT);
+    assertEquals(results.get(13).getSolverResults().size(), 3);
+    assertEquals(results.get(13).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(14).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(14).getSolverResults().size(), 5);
+    assertEquals(results.get(14).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(15).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(15).getSolverResults().size(), 3);
+    assertEquals(results.get(15).getNumUnrollings(), 1);    
+    
+    assertEquals(results.get(16).getResultType(), ResultType.UNSAT);
+    assertEquals(results.get(16).getSolverResults().size(), 5);
+    assertEquals(results.get(16).getNumUnrollings(), 2);
+  }
+  
+  
+  @Test
+  public void testCheckSatStringStringNegativePositive01() {
+    if (parms.solverName.equals(Z3)) {
+      // Currently this test is only used for Z3 since CVC4 cannot handle it.
+      checkTestOk("negative_positive01.rada", ResultType.UNSAT, 3, 1);
+    }
+  }
+  
+  @Test
+  public void testCheckSatStringStringNegativePositive02() {
+    if (parms.solverName.equals(Z3)) {
+      // Currently this test is only used for Z3 since CVC4 cannot handle it.
+      checkTestOk("negative_positive02.rada", ResultType.UNSAT, 13, 6);
+    }
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMax01() {
+    if (parms.solverName.equals(Z3)) {
+      // Currently this test is only used for Z3 since CVC4 cannot handle it.
+      checkTestOk("min_max01.rada", ResultType.UNSAT, 3, 1);
+    }
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinMax02() {
+    if (parms.solverName.equals(Z3)) {
+      // Currently this test is only used for Z3 since CVC4 cannot handle it.
+      checkTestOk("min_max02.rada", ResultType.UNSAT, 13, 6);
+    }
+  }
+  
+  @Test
+  public void testCheckSatStringStringArrayLeaf01() {
+    checkTestOk("array_leaf01.rada", ResultType.UNSAT, 5, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringArrayLeaf02() {    
+    checkTestOk("array_leaf02.rada", ResultType.SAT, 4, 2);
+  }
+  
+  @Test
+  public void testCheckSatStringStringMinSizeSum01() {
+    checkTestOk("min_size_sum01.rada", ResultType.UNSAT, 9, 4);
+  }
+  
+  @Test
+  public void testRunMinSizeSum02() {
+    checkTestOk("min_size_sum02.rada", ResultType.SAT, 6, 3);
+  }
+
+  @Test
+  public void testRunMinMaxSum01() {    
+    checkTestOk("min_max_sum01.rada", ResultType.UNSAT, 9, 4);
+  }
+  
+  @Test
+  public void testRunMinMaxSum02() {
+    checkTestOk("min_max_sum02.rada", ResultType.SAT, 6, 3);
+  }  
+  
+  @Test
+  public void testRunMinMaxSum03() {
+    checkTestOk("min_max_sum03.rada", ResultType.SAT, 8, 4);
+  }
+  
+  @Test
+  public void testRunMinMaxSum04() {
+    checkTestOk("min_max_sum04.rada", ResultType.SAT, 8, 4);
+  }
+  
+  @Test
+  public void testRunMinMaxSum05() {
+    if (parms.solverName.equals(Z3)) {
+      // Only use Z3 for this test because CVC4 can spend too much time solving it.
+      checkTestOk("min_max_sum05.rada", ResultType.UNSAT, 11, 5);
+    }
+  }
+  
+  @Test
+  public void testRunForall01() {
+    checkTestOk("forall01.rada", ResultType.SAT, 14, 7);
+  }  
+  
+  @Test
+  public void testRunForall02() {
+    checkTestOk("forall02.rada", ResultType.UNSAT, 13, 6);
+  }
+  
+  @Test
+  public void testRunExists01() {
+    checkTestOk("exists01.rada", ResultType.SAT, 2, 1);
+  }
+  
+  @Test
+  public void testRunExists02() {
+    checkTestOk("exists02.rada", ResultType.UNSAT, 3, 1);
+  }  
+  
+  @Test
+  public void testRunMember01() {
+    checkTestOk("member01.rada", ResultType.SAT, 10, 5);
+  }
+  
+  @Test
+  public void testRunMember02() {
+    checkTestOk("member02.rada", ResultType.UNSAT, 13, 6);
+  }    
+  
+  @Test
+  public void testRunNGN01() {
+    checkTestOk("ngn01.rada", ResultType.SAT, 14, 7);
+  }
+  
+  @Test
+  public void testRunNGN02() {
+    checkTestOk("ngn02.rada", ResultType.UNSAT, 9, 4);
+  }    
+
+  @Test
+  public void testRunNGNNGN01() {
+    checkTestOk("ngn_ngn01.rada", ResultType.SAT, 14, 7);
+  }
+ 
+  @Test
+  public void testRunNGNNGN02() {
+    checkTestOk("ngn_ngn02.rada", ResultType.UNSAT, 9, 4);
+  } 
+  
+  @Test public void testRBTreeRedProperty() {
+    parms.filePath = testDir + "RBTree.Red_Property.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 12);
+    
+    assertEquals(results.get(0).getResultType(), ResultType.UNSAT);
+    assertEquals(results.get(0).getSolverResults().size(), 5);
+    assertEquals(results.get(0).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(1).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(1).getSolverResults().size(), 5);
+    assertEquals(results.get(1).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(2).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(2).getSolverResults().size(), 3);
+    assertEquals(results.get(2).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(3).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(3).getSolverResults().size(), 3);
+    assertEquals(results.get(3).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(4).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(4).getSolverResults().size(), 9);
+    assertEquals(results.get(4).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(5).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(5).getSolverResults().size(), 9);
+    assertEquals(results.get(5).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(6).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(6).getSolverResults().size(), 3);
+    assertEquals(results.get(6).getNumUnrollings(), 1);    
+
+    assertEquals(results.get(7).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(7).getSolverResults().size(), 3);
+    assertEquals(results.get(7).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(8).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(8).getSolverResults().size(), 9);
+    assertEquals(results.get(8).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(9).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(9).getSolverResults().size(), 9);
+    assertEquals(results.get(9).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(10).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(10).getSolverResults().size(), 3);
+    assertEquals(results.get(10).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(11).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(11).getSolverResults().size(), 3);
+    assertEquals(results.get(11).getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testRBTreeRBlackProperty() {
+    parms.filePath = testDir + "RBTree.Black_Property.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 12);
+    
+    assertEquals(results.get(0).getResultType(), ResultType.UNSAT);
+    assertEquals(results.get(0).getSolverResults().size(), 5);
+    assertEquals(results.get(0).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(1).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(1).getSolverResults().size(), 5);
+    assertEquals(results.get(1).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(2).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(2).getSolverResults().size(), 5);
+    assertEquals(results.get(2).getNumUnrollings(), 2);
+    
+    assertEquals(results.get(3).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(3).getSolverResults().size(), 3);
+    assertEquals(results.get(3).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(4).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(4).getSolverResults().size(), 9);
+    assertEquals(results.get(4).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(5).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(5).getSolverResults().size(), 9);
+    assertEquals(results.get(5).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(6).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(6).getSolverResults().size(), 9);
+    assertEquals(results.get(6).getNumUnrollings(), 4);    
+
+    assertEquals(results.get(7).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(7).getSolverResults().size(), 3);
+    assertEquals(results.get(7).getNumUnrollings(), 1);
+    
+    assertEquals(results.get(8).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(8).getSolverResults().size(), 9);
+    assertEquals(results.get(8).getNumUnrollings(), 4);
+    
+    assertEquals(results.get(9).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(9).getSolverResults().size(), 7);
+    assertEquals(results.get(9).getNumUnrollings(), 3);
+    
+    assertEquals(results.get(10).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(10).getSolverResults().size(), 7);
+    assertEquals(results.get(10).getNumUnrollings(), 3);
+    
+    assertEquals(results.get(11).getResultType(), ResultType.UNSAT);    
+    assertEquals(results.get(11).getSolverResults().size(), 3);
+    assertEquals(results.get(11).getNumUnrollings(), 1);
+  }
+  
+  @Test
+  public void testArrayChecksumSumListAdd() {
+    parms.filePath = testDir + "array_checksum.SumListAdd.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 2);
+    for (RadaResult result : results) {    
+      assertEquals(result.getResultType(), ResultType.UNSAT);
+      assertEquals(result.getSolverResults().size(), 3);
+      assertEquals(result.getNumUnrollings(), 1);
+    }
+  }
+
+  @Test
+  public void testArrayChecksumSumListAddAlt() {
+    if (parms.solverName.equals(Z3)) {
+      // Z3 only. CVC4 does not understand Array
+      parms.filePath = testDir + "array_checksum.SumListAdd_Alt.rada";
+      List<RadaResult> results = rada.run(parms);
+      assertEquals(results.size(), 13);
+      for (RadaResult result : results) {    
+        assertEquals(result.getResultType(), ResultType.UNSAT);
+        assertEquals(result.getSolverResults().size(), 3);
+        assertEquals(result.getNumUnrollings(), 1);
+      }
+    }
+  }  
+  
+  /**
+   * Above are unit tests for well-designed examples that would be published in our paper.
+   * Below are unit tests for bad examples that are only used for testing purposes.
+   */
+  
+  /**
+   * Test when we use :post-cond.
+   */
+  @Test
+  public void testRunSumtree01WithPostCond() {
+    checkTestOk("sumtree01_with_postcond.rada", ResultType.SAT, 4, 2);
+  }
+  
+  /**
+   * Test when we use :post-cond and multiple arguments
+   */
+  @Test
+  public void testRunSumtree01WithArguments() {
+    checkTestOk("sumtree01_with_arguments.rada", ResultType.SAT, 4, 2);
+  }
+  
+  /**
+   * Test when the maximum number of Unrolls is used and the result is UNKNOWN.
+   */
+  @Test
+  public void testRunIntUnknown() {
+    parms.filePath = testDir + "sumtree01.rada";
+    parms.maxDepth = 1;
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.UNKNOWN);
+  }
+    
+  /**
+   * Test when the solver does not exist.
+   */
+  @Test
+  public void testRunNonexistingSolver() {
+    parms.solverName = "noname";
+    parms.filePath = testDir + "sumtree01.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }
+
+  /**
+   * Test when the input file does not exist.
+   */
+  @Test
+  public void testRunNonexistingFilePath() {
+    parms.filePath = testDir + "non/existing/path";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }
+    
+  /**
+   * Test when the input file does not have "check-sat".
+   */
+  @Test
+  public void testRunNoCheckSat() {
+    parms.filePath = testDir + "error_nochecksat.rada";
+      List<RadaResult> results = rada.run(parms);
+      assertEquals(results.size(), 1);
+      assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+    }
+ 
+  /**
+   * Test when the input file is unparsable.
+   */
+  @Test
+  public void testRunUnparsable() {
+    parms.filePath = testDir + "error_unparsable.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }
+  
+  /**
+   * Test when the the number of formal arguments and that of actual ones are mismatched.
+   */
+  @Test
+  public void testRunArgumentMismatch() {
+    parms.filePath = testDir + "error_argument_mismatch.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }
+  
+  /**
+   * Test when the the number of formal arguments and that of actual ones are mismatched.
+   */
+  @Test
+  public void testRunDuplicateArguments() {
+    parms.filePath = testDir + "error_duplicate_arguments.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }
+  
+  /**
+   * Test when (push number) and (pop number) are used.
+   * In this case, RADA will return an error.
+   */
+  @Test
+  public void testPushNum() {
+    parms.filePath = testDir + "error_pushnum.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }  
+  
+  @Test
+  public void testPopNum() {
+    parms.filePath = testDir + "error_popnum.rada";
+    List<RadaResult> results = rada.run(parms);
+    assertEquals(results.size(), 1);
+    assertEquals(results.get(0).getResultType(), ResultType.ERROR);
+  }
+}

@@ -1,0 +1,40 @@
+;(set-option :produce-models true)
+(set-logic QF_AUFLIRA)
+(define-sort IntArray () (Array Int Int))
+(declare-datatypes () (
+  ( IntTree
+      ( Node
+	      (left IntTree)
+		  (elem IntArray)
+		  (right IntTree))
+	  (Leaf)
+   )
+))
+
+(declare-fun f (Int) Int)
+
+(define-fun sumFirstThree ((a IntArray)) Int
+    (+ (select a 1) (select a 2) (select a 3)))
+
+
+(define-catamorphism SumTree ((foo IntTree)) Int
+	(ite
+		(is-Leaf foo)
+		0
+		(+ (SumTree (left foo)) (sumFirstThree (elem foo)) (SumTree (right foo)))
+		))
+
+(declare-fun v1 () Int)
+(declare-fun l1 () IntTree)
+(declare-fun l2 () IntTree)
+(declare-fun a1 () IntArray)
+(declare-fun a2 () IntArray)
+
+(assert (= a2 (store (store (store a1 1 2) 2 4) 3 2)))
+(assert (= l1 (Node Leaf a2 Leaf)))
+;(assert (= l1 (Node Leaf a2 l2)))
+
+; UNSAT - the sum of the tree must be 8 (= 2 + 4 + 2)
+(assert (= (SumTree l1) 10))
+(check-sat)
+(exit)

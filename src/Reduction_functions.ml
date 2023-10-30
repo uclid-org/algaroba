@@ -10,9 +10,9 @@ open Context
 exception UnsupportedQuery of string
 
 let full_reduction stmts =
-  let is = inline_statements stmts in
+  let start_stmts, is = inline_statements stmts in
   (* print_string "inline done \n"; *)
-  let rs = rewrite_statements is in
+  let rs = rewrite_statements start_stmts is in
   (* print_string "rewrite done \n"; *)
   let fs = flatten_statements rs in 
   (* print_string "flatten done \n"; *)
@@ -36,9 +36,9 @@ let full_reduction_without_depths stmts =
   (*Some Functions to do an Iterative approach instead*)
 
   let iterative_reduction stmts =
-    let is = inline_statements stmts in
+    let start_stmts, is = inline_statements stmts in
     (* print_string "inline done \n"; *)
-    let rs = rewrite_statements is in
+    let rs = rewrite_statements start_stmts is in
     (* print_string "rewrite done \n"; *)
     let fs = flatten_statements rs in 
     (* print_string "flatten done \n"; *)

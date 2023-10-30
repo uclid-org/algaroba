@@ -1,0 +1,59 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Datatype declarations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(declare-datatypes () 
+  ((ArrayList (ArrayList_nil) (ArrayList_cons (destArrayList_cons ArrayList_cons_recd)))
+
+   (ArrayList_cons_recd (ArrayList_cons_recd (ArrayList_cons_recd_hd (Array Int Int) )
+  (ArrayList_cons_recd_tl ArrayList)))
+))
+
+(declare-datatypes () 
+  ((ArrayTree (ArrayTree_Leaf (destArrayTree_Leaf (Array Int Int) )) (ArrayTree_Node (destArrayTree_Node ArrayTree_Node_recd)))
+
+   (ArrayTree_Node_recd (ArrayTree_Node_recd (ArrayTree_Node_recd_left ArrayTree)
+  (ArrayTree_Node_recd_elem Int) (ArrayTree_Node_recd_right ArrayTree)))
+))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Uninterpreted symbols
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(declare-fun L1 () ArrayList)
+(declare-fun L2 () ArrayList)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Catamorphisms
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-catamorphism SumElementsFn ((A (Array Int Int))) Int
+  (+ (+ (+ (+ (select A 0) (select A 1)) (select A 2)) (select A 3)) (select A 4)))
+
+(define-catamorphism concatFn ((L1 ArrayList) (L2 ArrayList)) ArrayList
+  (ite (is-ArrayList_nil L1) L2 (ArrayList_cons (ArrayList_cons_recd (ArrayList_cons_recd_hd (destArrayList_cons L1)) (concatFn (ArrayList_cons_recd_tl (destArrayList_cons L1)) L2)))))
+
+(define-catamorphism TreeListFn ((t ArrayTree)) ArrayList
+  (ite (is-ArrayTree_Leaf t) (ArrayList_cons (ArrayList_cons_recd (destArrayTree_Leaf t) ArrayList_nil)) (concatFn (TreeListFn (ArrayTree_Node_recd_left (destArrayTree_Node t))) (TreeListFn (ArrayTree_Node_recd_right (destArrayTree_Node t))))))
+
+(define-catamorphism SumTreeFn ((t ArrayTree)) Int
+  (ite (is-ArrayTree_Leaf t) (SumElementsFn (destArrayTree_Leaf t)) (+ (SumTreeFn (ArrayTree_Node_recd_left (destArrayTree_Node t))) (SumTreeFn (ArrayTree_Node_recd_right (destArrayTree_Node t))))))
+
+(define-catamorphism SumListFn ((L ArrayList)) Int
+  (ite (is-ArrayList_nil L) 0 (+ (SumElementsFn (ArrayList_cons_recd_hd (destArrayList_cons L))) (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons L))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Goals
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(push)
+(assert (and (is-ArrayList_nil L1) (not (= (SumListFn L2) (+ (SumListFn L1) (SumListFn L2))))))
+(check-sat)
+(pop)
+
+(push)
+(assert (and (= (SumListFn (concatFn (ArrayList_cons_recd_tl (destArrayList_cons L1)) L2)) (+ (SumListFn (ArrayList_cons_recd_tl (destArrayList_cons L1))) (SumListFn L2))) (and (not (is-ArrayList_nil L1)) (not (= (SumListFn (ArrayList_cons (ArrayList_cons_recd (ArrayList_cons_recd_hd (destArrayList_cons L1)) (concatFn (ArrayList_cons_recd_tl (destArrayList_cons L1)) L2)))) (+ (SumListFn L1) (SumListFn L2)))))))
+(check-sat)
+(pop)

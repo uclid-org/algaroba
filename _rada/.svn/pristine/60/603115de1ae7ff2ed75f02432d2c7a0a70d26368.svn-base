@@ -1,0 +1,149 @@
+/*
+ * This file is part of the RADA prototype.
+ * 
+ * Copyright (C) 2013 University of Minnesota 
+ * See file COPYING in the top-level source directory for licensing information 
+ */
+ 
+package rada;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import rada.RadaGrammarLexer;
+import rada.RadaGrammarParser;
+
+public class Catamorphism {
+  private String name;
+  private List<Argument> formalArgs;
+  private String outputSort;
+  private String body;
+  private String postCond;       // post-condition. Be null if there is no cond.
+  String recCondition;           // condition for catamorphism calls in body;
+                                 // it is null if there is no such call. 
+  List<CatamorphismApp> catApps; // list of distinct catamorphism calls in body
+  
+  public Catamorphism(String name_, List<Argument> formalArgs_,
+                      String outputSort_, String body_, String postCond_) {
+    name = name_;
+    formalArgs = formalArgs_;
+    outputSort = outputSort_;
+    body = body_;
+    postCond = postCond_;
+    
+    recCondition = null;
+    catApps = null;
+  }
+  
+  
+  public String getName() {
+    return name;
+  }
+  
+  public List<Argument> getFormalArgs() {
+    return formalArgs;
+  }
+  
+  public String getOutputSort() {
+    return outputSort;
+  }
+  
+  public String getBody() {
+    return body;
+  }
+  
+  public String getPostCond() {
+    return postCond;
+  }
+  
+  public String getRecCondition() {
+    return recCondition;
+  }
+  
+  public List<CatamorphismApp> getCatApps() {
+    return catApps;
+  }
+  
+  @Override
+  public String toString() {
+    return name;
+  }
+  
+  @Override
+  public boolean equals(Object cat) {
+    if (cat == null) {
+      return false;
+    }
+    if (cat == this) {
+      return true;
+    }
+    if (!(cat instanceof Catamorphism)) {
+      return false;    
+    }
+    return name.equals(((Catamorphism)cat).getName());
+  }
+
+  /*
+   * Examines the body of the catamorphism and finds the list of catamorphism
+   * calls in the body. This functions should only used after we know the
+   * definitions of all catamorphisms. 
+   */
+  public void createCatApps(Map<String, Catamorphism> catMap) {
+    // Parse the catamorphism body to find catamorphism applications
+    CharStream charStream = new ANTLRInputStream(body);
+    RadaGrammarLexer lexer = new RadaGrammarLexer(charStream);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    RadaGrammarParser parser = new RadaGrammarParser(tokens);
+    ParseTree tree = parser.term();     
+    ParseTreeWalker walker = new ParseTreeWalker();
+    CatamorphismListener listener = new CatamorphismListener(tokens, catMap);
+    walker.walk(listener, tree);
+    
+    // Extract all catamorphism calls in the body of the catamorphism
+    catApps = listener.getCatApps();
+    
+    // Get the condition that leads to one of catamorphism calls.
+    // recCondition = null if there are no catamorphism calls in the body of 
+    // the catamorphism.
+    Set<String> recConditions = listener.getRecConditions();
+    if (recConditions.size() == 0) {
+      recCondition = null;
+    } else {
+      recCondition = Util.makeOr(recConditions);
+    }
+  }
+  
+  // Sanity check the catamorphism. Throws exceptions if fail.  
+  public void sanityCheck() throws Exception {    
+    // Check if there are duplicate symbols in formalArgs
+    List<String> symbols = new ArrayList<String>();
+    for (Argument argument: formalArgs) {
+      if (symbols.contains(argument.getSymbol())) {
+        throw new Exception(
+            "Catamorphism " + name +
+            " has duplicate arguments " + argument.getSymbol());
+      }
+      symbols.add(argument.getSymbol());
+    }
+    
+    // Sanity check for each catamorphism call inside the catamorphism.
+    for (CatamorphismApp catApp : catApps) {
+      catApp.sanityCheck();
+    }
+  }
+  
+  // Sanity a map of catamorphisms. Throws exception if fail.
+  public static void sanityCheckCatamorphisms(Map<String, Catamorphism> catMap)
+      throws Exception {
+    for (String catName : catMap.keySet()) {
+      Catamorphism cat = catMap.get(catName);
+      cat.sanityCheck();
+    }
+  } 
+}

@@ -2,7 +2,6 @@
 
 module PA = Smtlib_utils.V_2_6.Ast
 open Context
-open R5reduce_rules
 exception UnsupportedQuery of string
 
 let assert_conjunctions = ref false
@@ -16,7 +15,7 @@ let rec cone_of_influence_term (term : PA.term) =
     | Arith (_, terms) -> let _ = List.map cone_of_influence_term terms in ()
     | App (s, terms) -> Ctx.add_to_cone s; let _ = List.map cone_of_influence_term terms in ()
     | HO_app _ -> raise (UnsupportedQuery "We do not support HO_App")
-    | Match (_, _) -> raise (UnsupportedQuery "Haven't added support for Match statements yet") (*TODO: add support for match statements*)
+    | Match (_, _) -> raise (UnsupportedQuery "We should have reduced Match to ITE by now")
     | If (i,t,e) -> cone_of_influence_term i; cone_of_influence_term t; cone_of_influence_term e; ()
     | Let _ -> raise (UnsupportedQuery "We should have inlined lets by now")
     | Is_a (_, term) -> cone_of_influence_term term
@@ -83,8 +82,8 @@ let rec get_adt_vars_term (term : PA.term) =
         | None -> let _ = List.map get_adt_vars_term terms in ()
       end
   | HO_app _ -> raise (UnsupportedQuery "We do not support HO_App")
-  | Match (_, _) -> raise (UnsupportedQuery "Haven't added support for Match statements yet") (*TODO: add support for match statements*)
-  | If (i,t,e) -> get_adt_vars_term i; get_adt_vars_term t; get_adt_vars_term e; ()
+  | Match (_, _) -> raise (UnsupportedQuery "We should have reduced Match to ITE by now")
+| If (i,t,e) -> get_adt_vars_term i; get_adt_vars_term t; get_adt_vars_term e; ()
   | Let _ -> raise (UnsupportedQuery "We should have inlined lets by now")
   | Is_a (_, term) -> get_adt_vars_term term
   | Fun (_, term) -> get_adt_vars_term term
@@ -220,7 +219,7 @@ let rec rewrite_term (t: PA.term) (toplevel : bool) : (PA.term * bool) =
     | Arith (op, terms) ->
         let new_terms, continue = List.fold_left (fun (acc1, acc2) x -> (let a, b = (rewrite_term x false) in ((acc1 @ [a]), (acc2 || b)))) ([], false) terms in 
         (PA.Arith (op, new_terms), continue)
-    | Match (_, _) -> t, false (*TODO: Add support for match statements*)
+    | Match (_, _) -> raise (UnsupportedQuery "We should have reduced Match to ITE by now")
     | If(a, b, c) ->
         begin match a with
          | PA.True -> 
@@ -423,9 +422,7 @@ let rewrite_iteration (stmts : PA.stmt list) = (*TODO: this will do some funky t
     begin match stmts with
       | stmt :: rest ->
         begin match stmt with
-          | PA.Stmt_data data -> let reduced_adt_decl_sorts, reduced_adt_decl_funs = (add_adt_list_to_context data) in
-                                (aux rest (acc) (start_statements @ reduced_adt_decl_sorts @ reduced_adt_decl_funs) change)
-
+          | PA.Stmt_data _ -> raise (UnsupportedQuery "Should have already removed datatypes in the inline stage.")
           | PA.Stmt_assert t ->  
               let new_term, continue = rewrite_term t true in
               let new_asserts =
@@ -437,12 +434,6 @@ let rewrite_iteration (stmts : PA.stmt list) = (*TODO: this will do some funky t
               aux rest (acc @ new_asserts) start_statements (change || continue)
           | PA.Stmt_set_info _ -> aux rest (acc) (start_statements @ [stmt]) change
           | PA.Stmt_set_logic _ -> aux rest (acc) (start_statements @ [stmt]) change
-          (* | PA.Stmt_decl fun_decl ->
-            if (fun_decl.fun_args = []) then (
-              StrTbl.add Ctx.t.constants fun_decl.fun_name (false, "");
-              aux rest (acc @ [stmt]) start_statements change
-            ) 
-            else  aux rest (acc @ [stmt]) start_statements change *)
           | _ -> aux rest (acc @ [stmt]) start_statements change
         end
       | _ -> acc, start_statements, change
@@ -451,13 +442,14 @@ let rewrite_iteration (stmts : PA.stmt list) = (*TODO: this will do some funky t
 
 
 
-let rewrite_statements stmts = 
+let rewrite_statements start_statements stmts = 
   let rec rewrite_statements_helper stmts start_stmts = 
     let new_statements, start_statements, continue = rewrite_iteration stmts in 
     if continue then (rewrite_statements_helper new_statements (start_stmts @ start_statements))
     else start_stmts @ start_statements @ new_statements
   in 
   let new_statements = rewrite_statements_helper stmts [] in
+  let new_statements = start_statements @ new_statements in
   let pruned_statements = cone_of_influence new_statements in
   let _ = get_adt_vars pruned_statements in
   pruned_statements

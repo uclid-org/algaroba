@@ -1,0 +1,76 @@
+;(set-option :produce-models true)
+(set-logic ALL)
+(declare-datatypes () (
+  (RealTree
+    (Node
+      (left RealTree)
+      (elem Real)
+      (right RealTree))
+    (Leaf))))
+
+;;
+;; Definition of PAC catamorphism NLEAVES
+;;
+(define-fun-rec PAC_nleaves ((foo RealTree) (cleaf_nleaves Int) (cpr_nleaves Int) (rec Bool)) Int
+  (ite (is-Leaf foo)
+       cleaf_nleaves
+       (ite (not (pr (elem foo)))
+            (+ (PAC_nleaves  (left foo) cleaf_nleaves cpr_nleaves rec)
+               (delta_nleaves (elem foo))
+               (PAC_nleaves (right foo) cleaf_nleaves cpr_nleaves rec))
+            (ite rec
+                 (+ (PAC_nleaves  (left foo) cleaf_nleaves cpr_nleaves rec)
+                    cpr_nleaves
+                    (PAC_nleaves (right foo) cleaf_nleaves cpr_nleaves rec))
+                 cpr_nleaves))))
+
+;;
+;; Nleaves is a PAC catamorphism with
+;;   + delta(e) = 0
+;;   + cleaf = 1
+;;   + cpr = anything
+;;   + pr = false
+;;   + rec = true or false
+;;
+(declare-fun cleaf_nleaves_const () Int)
+(declare-fun cpr_nleaves_const () Int)
+(declare-fun rec_const () Bool)
+(assert (= cleaf_nleaves_const 1))
+(assert (= cpr_nleaves_const 0))
+(assert (= rec_const true))
+
+(define-fun pr ((e Real)) Bool
+  false)
+
+(define-fun delta_nleaves ((e Real)) Int
+  0)
+
+
+;;
+;; Suppose we want to compute the number of leaves in tree t1:
+;;
+(declare-fun t1 () RealTree)
+(assert (= t1 (Node
+                (Node
+                  (Node
+                    (Node
+                      (Node
+                        (Node Leaf 5.0 Leaf)
+                        1.0
+                        (Node Leaf 2.0 Leaf))
+                      3.0
+                      Leaf)
+                    7.0
+                    (Node
+                      (Node Leaf 5.0 Leaf)
+                      1.0
+                      (Node Leaf 2.0 Leaf)))
+                  11.0
+                  Leaf)
+                12.0
+                Leaf)))
+
+; the result is UNSAT: there are 11 leaves in t1
+(assert (not (= (PAC_nleaves t1 cleaf_nleaves_const cpr_nleaves_const rec_const) 11)))
+(check-sat)
+(exit)

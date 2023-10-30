@@ -1,0 +1,108 @@
+(set-logic ALL)
+
+(declare-datatypes () ((nat (O) (S (pred nat)))))
+(declare-datatypes () ((list (Nil) (Cons (head nat) (tail list)))))
+
+(define-fun-rec size ((x list)) nat (
+  ite (is-Nil x)
+    O
+    (S (size (tail x)))
+  )
+)
+
+(define-fun-rec plus ((x1 nat) (x2 nat)) nat 
+  (ite (is-O x1)
+    x2
+    (S (plus (pred x1) x2))
+  )
+)
+
+(define-fun-rec solution ((l1 list) (l2 list)) list 
+  (ite (is-Nil l1)
+    l2
+    (Cons (head l1) (solution (tail l1) l2))
+  )
+)
+
+(define-fun-rec incorrectsolution ((l1 list) (l2 list)) list 
+  (ite (is-Nil l1)
+    (Cons O l2)
+    (Cons (head l1) (solution (tail l1) l2))
+  )
+)
+
+(define-fun-rec spec ((l1 list) (l2 list) (out list)) Bool
+  (= (size out) (plus (size l1) (size l2)))
+)
+
+(define-fun test ((l1 list) (l2 list)) Bool
+  (= (size l1) (plus (size l2) O))
+)
+
+(declare-fun list1 () list)
+(declare-fun list2 () list)
+
+
+;(assert (= list1 Nil))
+;(assert (= list2 Nil))
+;(assert (not (= (solution list1 list2) Nil)))
+;
+;(assert (not (spec list1 list2 (solution list1 list2))))
+
+;(assert (not (= (size Nil) O)))
+
+;(assert (not (= (solution Nil Nil) Nil)))
+
+;(assert (not (= (plus O O) O)))
+
+
+; I think I found a bug in RADA
+; 1 alone should be UNSAT, but it is not
+; but 1, 2, 3 together are UNSAT
+; however, negating 2 and 3 (as in 4 and 5) give UNSAT, thus 2 and 3 should just be implied
+(assert (not (spec Nil Nil Nil))) ;1
+;(assert (= (plus O O) O)) ;2
+;(assert (= (size Nil) O)) ;3
+;(assert (not (= (plus O O) O))) ;4
+;(assert (not (= (size Nil) O))) ;5
+
+
+;(assert (not (= (size Nil) (plus (size Nil) (size Nil)))))
+
+(check-sat)
+
+;;solution
+;fix (f : list * list -> list) =
+  ;fun (x:list * list) ->
+    ;match x . 0 with
+      ;| Nil _ -> x . 1
+      ;| Cons _ -> Cons (Un_Cons (x . 0) . 0, f (Un_Cons (x . 0) . 1, x . 1))
+
+
+;let size =
+  ;fix (size : list -> nat) =
+    ;fun (x:list) ->
+      ;match x with
+        ;| Nil -> O
+        ;| Cons (_, t) -> S (size t)
+;;;
+;
+;let plus =
+  ;fix (plus : nat -> nat -> nat) =
+    ;fun (x1:nat) ->
+      ;fun (x2:nat) ->
+        ;match x1 with
+        ;| O -> x2
+        ;| S x1p -> S (plus x1p x2)
+;;;
+;
+;let and =
+  ;fun (b1:bool) ->
+    ;fun (b2:bool) ->
+      ;match b1 with
+      ;| True -> b2
+      ;| False -> False
+;;;
+;
+;fun (in1in2:list * list) -> (fun (out : list) ->
+    ;(size out) == (plus (size (in1in2.0)) (size (in1in2.1))))

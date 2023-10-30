@@ -121,7 +121,7 @@ let rec create_vars (term: PA.term) : PA.term =
                 )
            )
         | HO_app (_, _) -> raise (UnsupportedQuery "We do not support HO_App")
-        | Match (_, _) ->raise (UnsupportedQuery "We do not currently support Match statements") (*TODO: maybe add support in future*)
+        | Match (_, _) -> raise (UnsupportedQuery "We should have reduced Match to ITE by now")
         | If (t1, t2, t3) ->
           if !rewrite_ite then (
             let var_name = "contrived_variable" ^ string_of_int(Ctx.t.vars_created) in
@@ -207,7 +207,7 @@ and flatten (term: PA.term) : PA.term =
         if (check_if_constant term) then term  
         else App (s, (List.map create_vars terms)) 
     | HO_app (_, _) -> raise (UnsupportedQuery "We do not support HO_App")
-    | Match (_, _) -> raise (UnsupportedQuery "We do not currently support Match statements") (*TODO: maybe add support in future*)
+    | Match (_, _) -> raise (UnsupportedQuery "We should have reduced Match to ITE by now")
     | If (t1, t2, t3) ->
       if !rewrite_ite then (
         let var_name = "contrived_variable" ^ string_of_int (Ctx.t.vars_created) in

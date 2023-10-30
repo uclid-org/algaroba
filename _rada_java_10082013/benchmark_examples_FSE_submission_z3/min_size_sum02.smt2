@@ -1,0 +1,109 @@
+;(set-option :produce-models true)
+(set-logic ALL)
+(declare-datatypes () (
+  ( RealTree
+    ( Node
+      (left RealTree)
+      (elem Real)
+      (right RealTree))
+    (Leaf))))
+
+; ; SumTree catamorphism
+; (define-fun-rec SumTree ((foo RealTree)) Real
+;   (ite
+;     (is-Leaf foo)
+;       0.0
+;       (+ (SumTree (left foo)) (elem foo) (SumTree (right foo)))))
+
+(define-fun-rec SumTree ((foo RealTree)) Real
+  (+    (elem foo)
+        (ite (is-Leaf (left foo))
+             0.0
+             (SumTree (left foo)))
+        (ite (is-Leaf (right foo))
+             0.0
+             (SumTree (right foo)))))
+
+; Assume that foo is not Leaf
+(define-fun-rec SizeI ((foo RealTree)) Int
+  (+    1
+        (ite (is-Leaf (left foo))
+             0
+             (SizeI (left foo)))
+        (ite (is-Leaf (right foo))
+             0
+             (SizeI (right foo))))
+;  :post-cond (>= (SizeI foo) 0)
+)
+
+; Gets the min of two numbers.
+(define-fun min2 ((num1 Real) (num2 Real)) Real
+  (ite (< num1 num2)
+       num1
+       num2))
+
+; Gets the min of three numbers.
+(define-fun min3 ((num1 Real) (num2 Real) (num3 Real)) Real
+  (min2 (min2 num1 num2) num3))
+
+; Min catamorphism. Assume that foo is not Leaf.
+; (define-fun-rec Min ((foo RealTree)) Real
+;   (ite
+;     (is-Leaf foo)
+;       0.0 ; since we assume that foo is not Leaf, this value is not used.
+;       (min3 (Min (left foo)) (elem foo) (Min (right foo)))))
+
+(define-fun-rec Min ((foo RealTree)) Real
+  (min3 (elem foo)
+        (ite (is-Leaf (left foo))
+             (elem foo)
+             (Min (left foo)))
+        (ite (is-Leaf (right foo))
+             (elem foo)
+             (Min (right foo))))
+  ;:post-cond (or (< (Min foo) 0)
+                 ;(and (>= (Min foo) 0)
+                      ;(>= (SumTree foo) (Min foo))))
+)
+
+
+; (declare-fun l1 () RealTree)
+; (assert (= l1 (Node
+;                 (Node
+;                   (Node
+;                     (Node
+;                       (Node
+;                         (Node Leaf 5.0 Leaf)
+;                         1.0
+;                         (Node Leaf 2.0 Leaf))
+;                       3.0
+;                       Leaf)
+;                     7.0
+;                     Leaf)
+;                   11.0
+;                   Leaf)
+;                 12.0
+;                 Leaf)))
+
+; (assert (not (= l1 Leaf)))
+
+; (declare-fun minl1 () Real)
+; (declare-fun sizeil1 () Int)
+; (declare-fun suml1 () Real)
+
+; (assert (= minl1 (Min l1)))
+; (assert (= sizeil1 (SizeI l1)))
+; (assert (= suml1 (SumTree l1)))
+
+; (assert (= sizeil1 7))
+
+
+(declare-fun t () RealTree)
+(assert (not (= t Leaf)))
+(assert (= (Min t) 0.0))
+(assert (= (SizeI t) 5))
+(assert (= (SumTree t) 4.0))
+
+; SAT - There exists a tree whose min = 0, sizeI = 5; and sum = 4
+(check-sat)
+(exit)
