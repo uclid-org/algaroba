@@ -426,6 +426,7 @@ let rewrite_iteration (stmts : PA.stmt list) = (*TODO: this will do some funky t
           | PA.Stmt_data data -> let reduced_adt_decl_sorts, reduced_adt_decl_funs = (add_adt_list_to_context data) in
                                 (aux rest (acc) (start_statements @ reduced_adt_decl_sorts @ reduced_adt_decl_funs) change)
 
+          | PA.Stmt_decl_sort _ -> aux rest (acc) (start_statements @ [stmt]) change
           | PA.Stmt_assert t ->  
               let new_term, continue = rewrite_term t true in
               let new_asserts =
