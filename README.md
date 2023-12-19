@@ -35,18 +35,3 @@ algaroba <query> [options]
   -help  Display this list of options
   --help  Display this list of options
 ```
-
-## Testing
-Run testing.py to replicate our results. This will create a csv in test/dataframes, a graph in test/graphs, and will print the results to stdout. 
-If you would like to replicate our comparison to [Z3](https://github.com/Z3Prover/z3), [CVC5](https://cvc5.github.io/), and [Princess](http://www.philipp.ruemmer.org/princess.shtml), then you will need to install those tools.
-There are several options in testing.py that you can modify:
-```
-timeout: default is 1200 seconds
-test_case: can be 'Barrett', 'Bouvier', 'BouvierUF', or 'blocksworld'
-output_name: the name for the output
-run_pre_solvers: decides whether to run z3, cvc5, and princess
-princess path: the path to run princess, default is 'princess'
-z3 path: the path to run z3, default is 'z3'
-cvc5 path: the path to run cvc5, default is 'cvc5'
-algaroba flags: can run the solver with different flags to compare, default is just '{"algaroba": []}', i.e. no flags
-```
