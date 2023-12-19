@@ -1,0 +1,201 @@
+,Query Path,SAT/UNSAT,Depths,Algaroba no pause,Algaroba,Z3,cvc5,Princess
+0,../QF_DT2/20210312-Bouvier/vlsat3_h02.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",15.731544494628906,13.911631107330322,354.80196261405945,452.77052330970764,1201.0
+1,../QF_DT2/20210312-Bouvier/vlsat3_h43.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",94.44966053962708,107.21811890602112,1201.0,317.6337296962738,1201.0
+2,../QF_DT2/20210312-Bouvier/vlsat3_h22.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",18.91610360145569,21.239108085632324,1201.0,1201.0,1201.0
+3,../QF_DT2/20210312-Bouvier/vlsat3_h20.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",48.249390602111816,56.06106472015381,1201.0,1201.0,1201.0
+4,../QF_DT2/20210312-Bouvier/vlsat3_h25.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",64.32977986335754,56.08366799354553,1201.0,1201.0,1201.0
+5,../QF_DT2/20210312-Bouvier/vlsat3_b40.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",888.1866981983185,821.1697552204132,1201.0,369.13592863082886,1201.0
+6,../QF_DT2/20210312-Bouvier/vlsat3_b10.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,447.70489621162415,749.3227415084839,1201.0
+7,../QF_DT2/20210312-Bouvier/vlsat3_b12.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,536.9859702587128,667.3675413131714,1201.0
+8,../QF_DT2/20210312-Bouvier/vlsat3_b84.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,201.0256485939026,1201.0
+9,../QF_DT2/20210312-Bouvier/vlsat3_b16.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,753.316675901413,1055.2964644432068,1201.0
+10,../QF_DT2/20210312-Bouvier/vlsat3_b23.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1014.4398958683014,1201.0,1201.0
+11,../QF_DT2/20210312-Bouvier/vlsat3_h98.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1090.9455952644348
+12,../QF_DT2/20210312-Bouvier/vlsat3_h99.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1111.6334273815155
+13,../QF_DT2/20210312-Bouvier/vlsat3_h81.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1183.67919921875
+14,../QF_DT2/20210312-Bouvier/vlsat3_b58.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+15,../QF_DT2/20210312-Bouvier/vlsat3_b54.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+16,../QF_DT2/20210312-Bouvier/vlsat3_h95.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+17,../QF_DT2/20210312-Bouvier/vlsat3_b71.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+18,../QF_DT2/20210312-Bouvier/vlsat3_b82.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+19,../QF_DT2/20210312-Bouvier/vlsat3_b88.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+20,../QF_DT2/20210312-Bouvier/vlsat3_h64.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",71.31603169441223,74.84630584716797,1201.0,445.67933654785156,1201.0
+21,../QF_DT2/20210312-Bouvier/vlsat3_b06.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",873.8891768455505,937.7637650966644,211.9860246181488,110.81065034866333,1201.0
+22,../QF_DT2/20210312-Bouvier/vlsat3_h92.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",69.0434741973877,65.4009268283844,1201.0,353.58997917175293,1201.0
+23,../QF_DT2/20210312-Bouvier/vlsat3_h63.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,653.6168138980865
+24,../QF_DT2/20210312-Bouvier/vlsat3_b09.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,369.6173539161682,966.1355683803558,1201.0
+25,../QF_DT2/20210312-Bouvier/vlsat3_b00.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",544.6048316955566,533.2241463661194,58.08068227767944,100.42661571502686,1201.0
+26,../QF_DT2/20210312-Bouvier/vlsat3_h52.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",53.79501175880432,50.91133689880371,1201.0,264.3141987323761,1201.0
+27,../QF_DT2/20210312-Bouvier/vlsat3_h68.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",71.6205415725708,65.92528009414673,1201.0,352.8094310760498,1201.0
+28,../QF_DT2/20210312-Bouvier/vlsat3_h65.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",277.68745470046997,257.1050350666046,1201.0,1201.0,1201.0
+29,../QF_DT2/20210312-Bouvier/vlsat3_h85.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1054.1426556110382
+30,../QF_DT2/20210312-Bouvier/vlsat3_h26.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",13.5354745388031,17.283815145492554,1201.0,1201.0,1201.0
+31,../QF_DT2/20210312-Bouvier/vlsat3_h84.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",16.98225498199463,20.38797903060913,1201.0,169.3763530254364,1201.0
+32,../QF_DT2/20210312-Bouvier/vlsat3_b07.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",1159.2166047096252,1087.388648033142,301.85732889175415,519.3504953384399,1201.0
+33,../QF_DT2/20210312-Bouvier/vlsat3_b85.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,90.48772668838501
+34,../QF_DT2/20210312-Bouvier/vlsat3_b35.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1189.9543676376343,1201.0,1201.0
+35,../QF_DT2/20210312-Bouvier/vlsat3_b91.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+36,../QF_DT2/20210312-Bouvier/vlsat3_b86.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+37,../QF_DT2/20210312-Bouvier/vlsat3_b43.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+38,../QF_DT2/20210312-Bouvier/vlsat3_b57.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+39,../QF_DT2/20210312-Bouvier/vlsat3_b44.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+40,../QF_DT2/20210312-Bouvier/vlsat3_b95.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+41,../QF_DT2/20210312-Bouvier/vlsat3_h21.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",66.20855641365051,65.22596859931946,1201.0,335.49058389663696,1201.0
+42,../QF_DT2/20210312-Bouvier/vlsat3_h36.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",99.10806059837341,100.91936707496643,1201.0,1201.0,1201.0
+43,../QF_DT2/20210312-Bouvier/vlsat3_b36.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,835.5474872589111,1201.0
+44,../QF_DT2/20210312-Bouvier/vlsat3_b38.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+45,../QF_DT2/20210312-Bouvier/vlsat3_h86.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+46,../QF_DT2/20210312-Bouvier/vlsat3_h73.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,846.1489288806915
+47,../QF_DT2/20210312-Bouvier/vlsat3_b49.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,461.6104893684387,1201.0
+48,../QF_DT2/20210312-Bouvier/vlsat3_b08.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,297.58606147766113,1201.0,1201.0
+49,../QF_DT2/20210312-Bouvier/vlsat3_b48.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+50,../QF_DT2/20210312-Bouvier/vlsat3_b17.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,656.8870215415955,297.6240062713623,1201.0
+51,../QF_DT2/20210312-Bouvier/vlsat3_b98.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,130.70443391799927,125.22610378265381
+52,../QF_DT2/20210312-Bouvier/vlsat3_h27.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",318.6806378364563,338.22848296165466,1201.0,1201.0,124.4193434715271
+53,../QF_DT2/20210312-Bouvier/vlsat3_b94.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+54,../QF_DT2/20210312-Bouvier/vlsat3_b22.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",1112.616839170456,1123.1859023571014,897.6277003288269,1201.0,1201.0
+55,../QF_DT2/20210312-Bouvier/vlsat3_h53.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",106.14344143867493,110.3833396434784,1201.0,1201.0,1201.0
+56,../QF_DT2/20210312-Bouvier/vlsat3_h67.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",734.7583134174347,728.7508778572083,1201.0,1201.0,164.1567075252533
+57,../QF_DT2/20210312-Bouvier/vlsat3_h42.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",9.350740909576416,15.187490940093994,1201.0,1201.0,1201.0
+58,../QF_DT2/20210312-Bouvier/vlsat3_h48.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",55.78304743766785,55.84226083755493,1201.0,1201.0,1201.0
+59,../QF_DT2/20210312-Bouvier/vlsat3_h35.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",313.0933208465576,294.1216416358948,1201.0,1151.1083490848541,150.5933120250702
+60,../QF_DT2/20210312-Bouvier/vlsat3_b30.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1159.0094294548035,1201.0,1201.0
+61,../QF_DT2/20210312-Bouvier/vlsat3_b26.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,872.5183074474335,836.9120841026306,1201.0
+62,../QF_DT2/20210312-Bouvier/vlsat3_b83.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+63,../QF_DT2/20210312-Bouvier/vlsat3_h70.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",147.9367949962616,146.31505632400513,1201.0,246.0860505104065,1201.0
+64,../QF_DT2/20210312-Bouvier/vlsat3_h38.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",581.3566410541534,541.1029829978943,1201.0,1103.7134881019592,1201.0
+65,../QF_DT2/20210312-Bouvier/vlsat3_b78.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+66,../QF_DT2/20210312-Bouvier/vlsat3_h57.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,587.7929186820984
+67,../QF_DT2/20210312-Bouvier/vlsat3_h54.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",23.397318124771118,27.882593393325806,1201.0,1201.0,1201.0
+68,../QF_DT2/20210312-Bouvier/vlsat3_h14.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",31.59143090248108,31.23185896873474,1201.0,551.6876347064972,1201.0
+69,../QF_DT2/20210312-Bouvier/vlsat3_b14.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,439.8777344226837,397.50657749176025,1201.0
+70,../QF_DT2/20210312-Bouvier/vlsat3_h79.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+71,../QF_DT2/20210312-Bouvier/vlsat3_h33.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",13.274692058563232,12.934006690979004,1201.0,250.28432893753052,1201.0
+72,../QF_DT2/20210312-Bouvier/vlsat3_h45.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",635.6898159980774,651.4547455310822,1201.0,1201.0,1201.0
+73,../QF_DT2/20210312-Bouvier/vlsat3_h10.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",55.21325659751892,63.551180601119995,1044.1756474971771,1176.6991617679596,1201.0
+74,../QF_DT2/20210312-Bouvier/vlsat3_h75.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",204.95845460891724,216.99097299575806,1201.0,902.0540134906769,1201.0
+75,../QF_DT2/20210312-Bouvier/vlsat3_b61.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+76,../QF_DT2/20210312-Bouvier/vlsat3_b97.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,129.34651923179626,128.9706585407257
+77,../QF_DT2/20210312-Bouvier/vlsat3_h06.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",51.74343752861023,54.612157583236694,972.5953402519226,1201.0,47.25035548210144
+78,../QF_DT2/20210312-Bouvier/vlsat3_h39.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",652.6095538139343,659.2333092689514,1201.0,1201.0,1201.0
+79,../QF_DT2/20210312-Bouvier/vlsat3_h55.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+80,../QF_DT2/20210312-Bouvier/vlsat3_b20.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",722.5827798843384,742.3177199363708,607.7503752708435,284.8168339729309,1201.0
+81,../QF_DT2/20210312-Bouvier/vlsat3_h04.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",48.05643320083618,47.568443775177,504.50814485549927,163.95012378692627,43.888652086257935
+82,../QF_DT2/20210312-Bouvier/vlsat3_h87.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,816.6267721652985
+83,../QF_DT2/20210312-Bouvier/vlsat3_h16.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",18.96884250640869,23.30782723426819,1201.0,1201.0,1201.0
+84,../QF_DT2/20210312-Bouvier/vlsat3_b67.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+85,../QF_DT2/20210312-Bouvier/vlsat3_h19.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",221.86791014671326,228.50176000595093,1201.0,840.1451139450073,1201.0
+86,../QF_DT2/20210312-Bouvier/vlsat3_b45.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+87,../QF_DT2/20210312-Bouvier/vlsat3_b65.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+88,../QF_DT2/20210312-Bouvier/vlsat3_h76.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",527.951945066452,537.57532787323,1201.0,1201.0,192.11106276512146
+89,../QF_DT2/20210312-Bouvier/vlsat3_b79.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,87.826993227005,631.4888410568237
+90,../QF_DT2/20210312-Bouvier/vlsat3_b02.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",178.12946891784668,183.8065357208252,93.24728322029114,25.946430206298828,1201.0
+91,../QF_DT2/20210312-Bouvier/vlsat3_h01.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",11.311031818389893,13.642115116119385,203.65303707122803,544.0032389163971,1201.0
+92,../QF_DT2/20210312-Bouvier/vlsat3_b47.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+93,../QF_DT2/20210312-Bouvier/vlsat3_h13.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",15.109285116195679,19.53200387954712,1201.0,1201.0,1201.0
+94,../QF_DT2/20210312-Bouvier/vlsat3_b68.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+95,../QF_DT2/20210312-Bouvier/vlsat3_b59.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+96,../QF_DT2/20210312-Bouvier/vlsat3_b01.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,87.54344391822815,558.9178082942963,1201.0
+97,../QF_DT2/20210312-Bouvier/vlsat3_h50.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",38.29518413543701,42.213072538375854,1201.0,1201.0,1201.0
+98,../QF_DT2/20210312-Bouvier/vlsat3_h28.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",27.084721088409424,28.35354471206665,1201.0,1201.0,1201.0
+99,../QF_DT2/20210312-Bouvier/vlsat3_h41.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",178.4223713874817,182.23255944252014,1201.0,354.33896231651306,1201.0
+100,../QF_DT2/20210312-Bouvier/vlsat3_b50.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+101,../QF_DT2/20210312-Bouvier/vlsat3_b99.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,109.80807328224182
+102,../QF_DT2/20210312-Bouvier/vlsat3_b63.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+103,../QF_DT2/20210312-Bouvier/vlsat3_h61.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",435.34000754356384,449.21470880508423,1201.0,1201.0,172.68506717681885
+104,../QF_DT2/20210312-Bouvier/vlsat3_b52.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+105,../QF_DT2/20210312-Bouvier/vlsat3_b11.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,336.2280762195587,1201.0,1201.0
+106,../QF_DT2/20210312-Bouvier/vlsat3_b18.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,516.1654975414276,1201.0,1201.0
+107,../QF_DT2/20210312-Bouvier/vlsat3_b66.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+108,../QF_DT2/20210312-Bouvier/vlsat3_h47.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",424.21716713905334,440.4264814853668,1201.0,1201.0,135.16759657859802
+109,../QF_DT2/20210312-Bouvier/vlsat3_h88.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",46.07924818992615,54.65202832221985,1201.0,1201.0,1201.0
+110,../QF_DT2/20210312-Bouvier/vlsat3_b33.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1157.606704235077,956.9233722686768,1201.0
+111,../QF_DT2/20210312-Bouvier/vlsat3_b25.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,804.7452118396759,1201.0,1201.0
+112,../QF_DT2/20210312-Bouvier/vlsat3_h32.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",12.797175884246826,13.030173301696777,1201.0,221.88996171951294,1201.0
+113,../QF_DT2/20210312-Bouvier/vlsat3_b32.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1049.3046741485596,975.0302975177765,1201.0
+114,../QF_DT2/20210312-Bouvier/vlsat3_b13.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,478.9012544155121,371.66004276275635,1201.0
+115,../QF_DT2/20210312-Bouvier/vlsat3_h49.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+116,../QF_DT2/20210312-Bouvier/vlsat3_h71.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,578.0777144432068
+117,../QF_DT2/20210312-Bouvier/vlsat3_h66.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",22.438343048095703,34.77699685096741,1201.0,1201.0,1201.0
+118,../QF_DT2/20210312-Bouvier/vlsat3_b81.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+119,../QF_DT2/20210312-Bouvier/vlsat3_h07.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",48.612207651138306,53.84600234031677,669.5127613544464,1201.0,1201.0
+120,../QF_DT2/20210312-Bouvier/vlsat3_h08.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",44.752681732177734,43.655951261520386,865.8066585063934,798.2720375061035,41.752224922180176
+121,../QF_DT2/20210312-Bouvier/vlsat3_h24.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",34.079532623291016,36.76011610031128,1201.0,1201.0,1201.0
+122,../QF_DT2/20210312-Bouvier/vlsat3_h93.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,922.7086522579193
+123,../QF_DT2/20210312-Bouvier/vlsat3_h91.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+124,../QF_DT2/20210312-Bouvier/vlsat3_b90.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+125,../QF_DT2/20210312-Bouvier/vlsat3_b46.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+126,../QF_DT2/20210312-Bouvier/vlsat3_b29.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,772.876697063446,684.898759841919,1201.0
+127,../QF_DT2/20210312-Bouvier/vlsat3_h05.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",50.427223205566406,47.96812057495117,779.2432725429535,957.5482518672943,42.312227964401245
+128,../QF_DT2/20210312-Bouvier/vlsat3_h46.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",136.57456874847412,138.7946343421936,1201.0,236.34368991851807,1201.0
+129,../QF_DT2/20210312-Bouvier/vlsat3_h69.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",53.825761795043945,53.33349657058716,1201.0,279.5125844478607,1201.0
+130,../QF_DT2/20210312-Bouvier/vlsat3_b74.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+131,../QF_DT2/20210312-Bouvier/vlsat3_h34.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",200.60302567481995,210.63142204284668,1201.0,1201.0,87.35192680358887
+132,../QF_DT2/20210312-Bouvier/vlsat3_b73.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+133,../QF_DT2/20210312-Bouvier/vlsat3_b96.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+134,../QF_DT2/20210312-Bouvier/vlsat3_h29.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",27.115142107009888,38.930665254592896,1201.0,1201.0,1201.0
+135,../QF_DT2/20210312-Bouvier/vlsat3_h77.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",972.4790761470795,1004.8589243888855,1201.0,1201.0,309.89971375465393
+136,../QF_DT2/20210312-Bouvier/vlsat3_b75.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+137,../QF_DT2/20210312-Bouvier/vlsat3_h11.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",75.22996115684509,78.20847606658936,1201.0,1201.0,1201.0
+138,../QF_DT2/20210312-Bouvier/vlsat3_b76.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+139,../QF_DT2/20210312-Bouvier/vlsat3_b04.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,210.0099287033081,240.1739583015442,1201.0
+140,../QF_DT2/20210312-Bouvier/vlsat3_b41.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1186.6762647628784,1201.0,1201.0
+141,../QF_DT2/20210312-Bouvier/vlsat3_b55.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1177.1059913635254,1201.0
+142,../QF_DT2/20210312-Bouvier/vlsat3_h58.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",56.30296540260315,62.530163049697876,1201.0,1201.0,1201.0
+143,../QF_DT2/20210312-Bouvier/vlsat3_b31.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,962.4440724849701,1201.0,1201.0
+144,../QF_DT2/20210312-Bouvier/vlsat3_h12.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",66.75813865661621,69.30132818222046,1201.0,989.4358251094818,1201.0
+145,../QF_DT2/20210312-Bouvier/vlsat3_h83.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,837.8455877304077
+146,../QF_DT2/20210312-Bouvier/vlsat3_b51.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+147,../QF_DT2/20210312-Bouvier/vlsat3_b15.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,512.4114611148834,463.3917191028595,1201.0
+148,../QF_DT2/20210312-Bouvier/vlsat3_h78.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+149,../QF_DT2/20210312-Bouvier/vlsat3_b62.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+150,../QF_DT2/20210312-Bouvier/vlsat3_h60.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",93.17052459716797,98.33497762680054,1201.0,1201.0,1201.0
+151,../QF_DT2/20210312-Bouvier/vlsat3_h82.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",61.75286293029785,65.8940794467926,1201.0,483.42053389549255,1201.0
+152,../QF_DT2/20210312-Bouvier/vlsat3_h80.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",215.79645895957947,220.7003800868988,1201.0,528.4875712394714,1201.0
+153,../QF_DT2/20210312-Bouvier/vlsat3_b69.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+154,../QF_DT2/20210312-Bouvier/vlsat3_h40.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",15.050973892211914,15.42834186553955,1201.0,1201.0,1201.0
+155,../QF_DT2/20210312-Bouvier/vlsat3_h03.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",15.422727108001709,20.524649143218994,503.4460036754608,1201.0,1201.0
+156,../QF_DT2/20210312-Bouvier/vlsat3_h62.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",63.61501383781433,57.56444048881531,1201.0,1201.0,1201.0
+157,../QF_DT2/20210312-Bouvier/vlsat3_h17.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",109.37244462966919,114.06024932861328,1201.0,1201.0,1201.0
+158,../QF_DT2/20210312-Bouvier/vlsat3_b77.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+159,../QF_DT2/20210312-Bouvier/vlsat3_b28.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,923.8161437511444,1201.0,1201.0
+160,../QF_DT2/20210312-Bouvier/vlsat3_h51.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",95.1869432926178,97.88512086868286,1201.0,323.8689489364624,1201.0
+161,../QF_DT2/20210312-Bouvier/vlsat3_h31.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",145.88050031661987,143.3954701423645,1201.0,1191.7785830497742,1201.0
+162,../QF_DT2/20210312-Bouvier/vlsat3_b24.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,705.5977284908295,1201.0,1201.0
+163,../QF_DT2/20210312-Bouvier/vlsat3_b70.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+164,../QF_DT2/20210312-Bouvier/vlsat3_b89.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,168.2679853439331,1201.0
+165,../QF_DT2/20210312-Bouvier/vlsat3_h09.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",43.42795777320862,45.98685336112976,815.1394522190094,826.9515478610992,45.672905683517456
+166,../QF_DT2/20210312-Bouvier/vlsat3_b27.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,884.7894129753113,1201.0,1201.0
+167,../QF_DT2/20210312-Bouvier/vlsat3_h94.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",53.266318798065186,53.69475746154785,1201.0,301.44129037857056,1201.0
+168,../QF_DT2/20210312-Bouvier/vlsat3_h37.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",169.37398386001587,177.0029330253601,1201.0,1201.0,1201.0
+169,../QF_DT2/20210312-Bouvier/vlsat3_h15.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",41.07324147224426,41.632723808288574,1201.0,747.1339275836945,1201.0
+170,../QF_DT2/20210312-Bouvier/vlsat3_b19.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,571.5307011604309,360.7152991294861,1201.0
+171,../QF_DT2/20210312-Bouvier/vlsat3_h00.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",3.9622066020965576,4.145169019699097,47.75991773605347,152.18173503875732,15.776546239852905
+172,../QF_DT2/20210312-Bouvier/vlsat3_h72.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",40.832772731781006,45.70929431915283,1201.0,1201.0,1201.0
+173,../QF_DT2/20210312-Bouvier/vlsat3_h97.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",58.04491567611694,56.24265909194946,1201.0,281.7822208404541,1201.0
+174,../QF_DT2/20210312-Bouvier/vlsat3_b21.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,593.745365858078,334.3760516643524,1201.0
+175,../QF_DT2/20210312-Bouvier/vlsat3_h23.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",72.94465446472168,65.78667974472046,1201.0,376.1029930114746,1201.0
+176,../QF_DT2/20210312-Bouvier/vlsat3_b42.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+177,../QF_DT2/20210312-Bouvier/vlsat3_h96.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",29.97282910346985,36.60874366760254,1201.0,222.6319739818573,1201.0
+178,../QF_DT2/20210312-Bouvier/vlsat3_h30.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",25.303042888641357,26.411995887756348,1201.0,1201.0,1201.0
+179,../QF_DT2/20210312-Bouvier/vlsat3_b87.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+180,../QF_DT2/20210312-Bouvier/vlsat3_h74.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",55.60741186141968,57.49965524673462,1201.0,1201.0,1201.0
+181,../QF_DT2/20210312-Bouvier/vlsat3_b80.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,128.89179849624634,1201.0
+182,../QF_DT2/20210312-Bouvier/vlsat3_h56.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",51.714563846588135,55.538012981414795,1201.0,828.2436575889587,1201.0
+183,../QF_DT2/20210312-Bouvier/vlsat3_b05.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",320.3937017917633,322.96146416664124,68.08070826530457,138.47100853919983,1201.0
+184,../QF_DT2/20210312-Bouvier/vlsat3_b03.smt2,"{'algaroba no pause': 'unsat', 'algaroba': 'unsat'}","{Unit: 0, }",674.0004060268402,681.0581121444702,74.70224952697754,271.62608671188354,1201.0
+185,../QF_DT2/20210312-Bouvier/vlsat3_b39.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1188.183737039566,1201.0,1201.0
+186,../QF_DT2/20210312-Bouvier/vlsat3_b34.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1052.9001309871674,1158.6741969585419,1201.0
+187,../QF_DT2/20210312-Bouvier/vlsat3_b56.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,175.0653154850006,1201.0
+188,../QF_DT2/20210312-Bouvier/vlsat3_h44.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",20.192593336105347,49.120274782180786,1201.0,1201.0,1201.0
+189,../QF_DT2/20210312-Bouvier/vlsat3_b37.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1106.8299596309662,1201.0,1201.0
+190,../QF_DT2/20210312-Bouvier/vlsat3_b72.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+191,../QF_DT2/20210312-Bouvier/vlsat3_h59.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+192,../QF_DT2/20210312-Bouvier/vlsat3_b92.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+193,../QF_DT2/20210312-Bouvier/vlsat3_h90.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,542.8278267383575
+194,../QF_DT2/20210312-Bouvier/vlsat3_b93.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+195,../QF_DT2/20210312-Bouvier/vlsat3_h18.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",38.5483820438385,41.55659794807434,1201.0,1201.0,1201.0
+196,../QF_DT2/20210312-Bouvier/vlsat3_h89.smt2,"{'algaroba no pause': 'sat', 'algaroba': 'sat'}","{Unit: 0, }",869.0228095054626,722.1719768047333,1201.0,1201.0,326.0974018573761
+197,../QF_DT2/20210312-Bouvier/vlsat3_b64.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1201.0,1201.0,1201.0
+198,../QF_DT2/20210312-Bouvier/vlsat3_b60.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,1173.2944657802582,1201.0,1201.0
+199,../QF_DT2/20210312-Bouvier/vlsat3_b53.smt2,"{'algaroba no pause': 'T', 'algaroba': 'T'}",,1201.0,1201.0,867.1658244132996,397.7836184501648,1201.0
