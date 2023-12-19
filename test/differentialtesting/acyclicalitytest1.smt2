@@ -13,5 +13,6 @@
 (assert (= x (Tail y)))
 (assert (= y (Tail z)))
 (assert (= z (Tail w)))
+(assert (= w (Tail x)))
 
 (check-sat)

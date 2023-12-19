@@ -57,7 +57,7 @@
 (declare-fun contrived_variable3 () Bool)
 (declare-fun contrived_variable4 () nat)
 (declare-fun contrived_variable6 () list)
-(assert (=> (is-cons y) (= (cons contrived_variable4 contrived_variable6) y)))
+(assert (= (is-cons y) (= (cons contrived_variable4 contrived_variable6) y)))
 (assert
  (or (and (not (is-cons y)) (is-null y)) (and (is-cons y) (not (is-null y)))))
 (declare-fun contrived_variable5 () nat)
@@ -66,15 +66,15 @@
 (assert (= contrived_variable6 (cdr y)))
 (assert (= (size y) contrived_variable1))
 (assert (= contrived_variable3 (= y null)))
-(assert (=> contrived_variable3 (= contrived_variable1 zero)))
+(assert
+ (=> contrived_variable3 (and (= contrived_variable1 zero) (is-null y))))
 (assert
  (=> (not contrived_variable3)
-  (= contrived_variable1 (succ (size contrived_variable6)))))
+  (and (= contrived_variable1 (succ (size contrived_variable6))) (is-cons y))))
 (declare-fun contrived_variable8 () Bool)
 (declare-fun contrived_variable9 () nat)
 (declare-fun contrived_variable11 () list)
-(assert
- (=> (is-cons x) (= (cons contrived_variable9 contrived_variable11) x)))
+(assert (= (is-cons x) (= (cons contrived_variable9 contrived_variable11) x)))
 (assert
  (or (and (not (is-cons x)) (is-null x)) (and (is-cons x) (not (is-null x)))))
 (declare-fun contrived_variable10 () nat)
@@ -83,15 +83,16 @@
 (assert (= contrived_variable11 (cdr x)))
 (assert (= (size x) contrived_variable2))
 (assert (= contrived_variable8 (= x null)))
-(assert (=> contrived_variable8 (= contrived_variable2 zero)))
+(assert
+ (=> contrived_variable8 (and (= contrived_variable2 zero) (is-null x))))
 (assert
  (=> (not contrived_variable8)
-  (= contrived_variable2 (succ (size contrived_variable11)))))
+  (and (= contrived_variable2 (succ (size contrived_variable11))) (is-cons x))))
 (declare-fun contrived_variable13 () Bool)
 (declare-fun contrived_variable14 () nat)
 (declare-fun contrived_variable16 () list)
 (assert
- (=> (is-cons contrived_variable6)
+ (= (is-cons contrived_variable6)
   (= (cons contrived_variable14 contrived_variable16) contrived_variable6)))
 (assert
  (or (and (not (is-cons contrived_variable6)) (is-null contrived_variable6))
@@ -102,15 +103,18 @@
 (assert (= contrived_variable16 (cdr contrived_variable6)))
 (assert (= (size contrived_variable6) contrived_variable7))
 (assert (= contrived_variable13 (= contrived_variable6 null)))
-(assert (=> contrived_variable13 (= contrived_variable7 zero)))
+(assert
+ (=> contrived_variable13
+  (and (= contrived_variable7 zero) (is-null contrived_variable6))))
 (assert
  (=> (not contrived_variable13)
-  (= contrived_variable7 (succ (size contrived_variable16)))))
+  (and (= contrived_variable7 (succ (size contrived_variable16)))
+   (is-cons contrived_variable6))))
 (declare-fun contrived_variable18 () Bool)
 (declare-fun contrived_variable19 () nat)
 (declare-fun contrived_variable21 () list)
 (assert
- (=> (is-cons contrived_variable11)
+ (= (is-cons contrived_variable11)
   (= (cons contrived_variable19 contrived_variable21) contrived_variable11)))
 (assert
  (or
@@ -122,14 +126,13 @@
 (assert (= contrived_variable21 (cdr contrived_variable11)))
 (assert (= (size contrived_variable11) contrived_variable12))
 (assert (= contrived_variable18 (= contrived_variable11 null)))
-(assert (=> contrived_variable18 (= contrived_variable12 zero)))
+(assert
+ (=> contrived_variable18
+  (and (= contrived_variable12 zero) (is-null contrived_variable11))))
 (assert
  (=> (not contrived_variable18)
-  (= contrived_variable12 (succ (size contrived_variable21)))))
+  (and (= contrived_variable12 (succ (size contrived_variable21)))
+   (is-cons contrived_variable11))))
 (assert contrived_variable13)
 
-; if we can assert this we get unsat
-;(assert (not (= contrived_variable1 contrived_variable2)))
-
 (check-sat)
-;(get-model)

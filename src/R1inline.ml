@@ -69,15 +69,14 @@ let inline_statements stmts =
         | PA.Stmt_set_logic _ -> aux defs acc (start_statements @ [stmt]) rest
         | PA.Stmt_data data -> let reduced_adt_decl_sorts, reduced_adt_decl_funs = (add_adt_list_to_context data) in
                                 (aux defs acc (start_statements @ reduced_adt_decl_sorts @ reduced_adt_decl_funs) rest)
+        | PA.Stmt_decl_sort _ -> aux defs rest (acc) (start_statements @ [stmt])
         | PA.Stmt_fun_def fun_def ->
           let inlined_definition_body = multi_substitute defs fun_def.fr_body in
           aux ((fun_def.fr_decl.fun_name, (List.map fst fun_def.fr_decl.fun_args), inlined_definition_body) :: defs) acc start_statements rest 
         | Stmt_fun_rec fun_def ->
-          (*TODO: add implementation for this*)
-            (* let new_fun_decl = string PA.fun_decl {fun_ty_vars = fun_def.fr_decl.fun_ty_vars, fun_name = fun_def.fr_decl.fun_name, fun_args = List.map fst fun_def.fr_decl.fun_args, fun_ret = fun_def.fr_decl.fun_ret} in
-            let new_fun_decl = PA.Stmt_decl new_fun_decl in  *)
-
-          raise (UnsupportedQuery "We do not support Stmt_fun_rec")
+            let new_fun_decl = PA.Stmt_decl {fun_ty_vars = fun_def.fr_decl.fun_ty_vars; fun_name = fun_def.fr_decl.fun_name; fun_args = (List.map snd fun_def.fr_decl.fun_args); fun_ret = fun_def.fr_decl.fun_ret} in
+            Ctx.add_recursive_function fun_def.fr_decl.fun_name fun_def;
+            aux defs (new_fun_decl :: acc) start_statements rest 
         | Stmt_funs_rec _ -> raise (UnsupportedQuery "We do not support funs_rec_def")
         | Stmt_assert term ->
           let inlined_term = multi_substitute defs term in

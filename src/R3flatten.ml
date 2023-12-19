@@ -9,6 +9,31 @@ exception UnsupportedQuery of string
 let rewrite_ite = ref false
 let inline_constants = ref false
 
+
+  (*helper function that finds the terms in recursive funcstion*)
+  let rec find_recursive_function_in_term (term :PA.term) = 
+    begin match term with 
+      | Eq (a, b) ->
+          begin match a, b with 
+            | PA.Const const, PA.App (s, [inside_term]) -> (*TODO: Add support for recursive functions with more htan one input*)
+              begin match StrTbl.find_opt Ctx.t.recursive_functions s with
+                | Some _ -> 
+                  Ctx.save_recursive_application const s inside_term;
+                  ()
+                | None -> ()
+              end
+            | PA.App (s, [inside_term]), PA.Const const ->
+              begin match StrTbl.find_opt Ctx.t.recursive_functions s with
+                | Some _ -> 
+                  Ctx.save_recursive_application const s inside_term;
+                  ()
+                | None -> ()
+              end
+            | _ -> ()
+          end
+        | _ -> ()
+    end
+
 let rec get_general_adt_vars stmts = 
   begin match stmts with
     | stmt :: rest -> 
@@ -27,6 +52,7 @@ let rec get_general_adt_vars stmts =
                         end
                 | _ -> get_general_adt_vars rest
               end
+          | PA.Stmt_assert term -> find_recursive_function_in_term term; get_general_adt_vars rest
           | _ -> get_general_adt_vars rest
         end
     | _ -> ()
@@ -77,7 +103,7 @@ let rec create_vars (term: PA.term) : PA.term =
               | _ -> raise (UnsupportedQuery ) *)
             PA.Const var_name
           ) else (
-            (* if se have a selector applied to the wrong constructor then we can create a  new contrived variable*)
+            (* if we have a selector applied to the wrong constructor then we can create a  new contrived variable*)
             let use_result, result =
               begin match StrTbl.find_opt Ctx.t.selectors s with 
                 | Some (_, cstor, _) ->             
@@ -89,15 +115,26 @@ let rec create_vars (term: PA.term) : PA.term =
                                     let var_name = "contrived_variable" ^ string_of_int (Ctx.t.vars_created) in
                                     Ctx.increment_vars_created ();
                                     Ctx.add_new_statement var_name (get_type term) term;
-                                    true, PA.Const var_name
-                                ) else (false, PA.True)
-                            | None -> (false, PA.True)
+                                    true, var_name
+                                ) else (false, "")
+                            | None -> (false, "")
                           end
-                      | _ -> false, PA.True
+                      | _ -> false, ""
                     end  
-                  | _ -> false, PA.True
+                  | _ -> false, ""
                 end in
-                if use_result then (result)
+                if use_result then (
+                  begin match StrTbl.find_opt Ctx.t.recursive_functions s with 
+                    | Some (_, _, output, _) -> 
+                      begin match (get_type term) with
+                        | PA.Ty_app (ty_name, _) -> 
+                            Ctx.add_depth_variable_to_adt ty_name result output;
+                            PA.Const result
+                        | _ -> PA.Const result
+                      end
+                    | None -> PA.Const result
+                  end
+                )
                 else (
                   let var_name = "contrived_variable" ^ string_of_int(Ctx.t.vars_created) in
                   Ctx.increment_vars_created ();

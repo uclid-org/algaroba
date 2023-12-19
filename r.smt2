@@ -128,8 +128,10 @@
   (= contrived_variable12 (succ (size contrived_variable21)))))
 (assert contrived_variable13)
 
-; if we can assert this we get unsat
-;(assert (not (= contrived_variable1 contrived_variable2)))
+; cv2 is not 0 since it is equal to a successor
+(assert (not (is-zero contrived_variable2)))
+
+; should be unsat since we know that this is zero
+(assert (is-zero contrived_variable1))
 
 (check-sat)
-;(get-model)

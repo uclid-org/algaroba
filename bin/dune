@@ -20,6 +20,17 @@
  (flags
   (:standard -warn-error -A)))
 
+(executable
+ (name algaroba3)
+ (public_name algaroba3)
+ (modes exe)
+ (modules algaroba3)
+ (libraries smtlib-utils core algaroba_lib)
+ (preprocess
+  (pps ppx_let landmarks-ppx --auto))
+ (flags
+  (:standard -warn-error -A)))
+
  (executable
  (name reduce)
  (public_name reduce)

@@ -1,3 +1,5 @@
+(*A version of Algaroba that doesn't have any acyclicality axioms but validates models and blocks accordingly*)
+
 module PA = Smtlib_utils.V_2_6.Ast
 open Core
 open Algaroba_lib.Context
@@ -9,6 +11,7 @@ open Algaroba_lib.R5reduce_rules
 open Algaroba_lib.R6reduce_axioms
 open Algaroba_lib.Z3_utils
 open Algaroba_lib.Bound
+open Algaroba_lib.Z3model_utils
 module StrTbl = CCHashtbl.Make(CCString)
 
 
@@ -120,74 +123,48 @@ let speclist =
               begin match first_result with
               | "unsat" -> print_string first_result
               | _ -> (
-                      let evaluate_unsat_result solver depth = 
-                        let acyclicality_keys = StrTbl.keys_list Ctx.t.adt_with_depth_variables in
+                      let evaluate_unsat_result solver new_axioms_to_block iteration_number = 
+                        (* let acyclicality_keys = StrTbl.keys_list Ctx.t.adt_with_depth_variables in
                         let _ = generate_acyclicality_axioms_up_to_stop_depth acyclicality_keys depth in
                         let _ = generate_recursive_functions_up_to_depth depth context sorts func_decls in
                         let acyclicality_axioms = Ctx.t.axioms in
-                        print_string "ADDING THESE AS ADT AXIOMS: "; stmt_printer acyclicality_axioms;
+                        print_string "ADDING THESE AS ADT AXIOMS: "; stmt_printer acyclicality_axioms; *)
                         let before = Core.Time.now () in
-                        let result, _, _, _, _= evaluate_stmts acyclicality_axioms context solver sorts func_decls in
-                        print_time before ("UNSAT solve iteration " ^ (string_of_int depth)) ;
+                        let result,context, solver, sorts, func_decls = evaluate_stmts new_axioms_to_block context solver sorts func_decls in
+                        print_time before ("UNSAT solve iteration " ^ (string_of_int iteration_number)) ;
                         begin match result with
                           | "unsat" -> (*let _ = List.map (Z3.Solver.get_assertions solver) ~f:(fun x -> print_string (Z3.Expr.to_string x)) in*)
-                                       print_string result; "unsat"
+                                       "unsat"
                           | _ -> "sat"
                         end
                       in
-                      let evaluate_sat_result solver depth = 
-                          let bounds =
-                          bound
-                            (List.concat_map
-                                ~f:(fun (ls, t) ->
-                                  List.filter_map
-                                    ~f:(fun x -> Some (x, t)) (*TODO: the old filter is unsound, but this filter could be inefficient, need to figure out a better way to do this*)
-                                    (* ~f:(fun x ->
-                                      if
-                                        String.is_prefix ~prefix:"contrived_variable"
-                                          x
-                                      then None
-                                      else Some (x, t)) *)
-                                    ls )
-                                (StrTbl.values_list Ctx.t.adt_with_all_variables) )
-                            (depth - 1)
-                          in
-                          let bounds = [PA.Stmt_assert bounds] in
-                          let guards = List.map (StrTbl.keys_list Ctx.t.guards) ~f:(fun x -> PA.Stmt_assert (PA.Const x))  in
-                          print_string "Guards at this iteration: "; stmt_printer guards;
-                          print_time before "Bounding time" ;
-                          let before = Core.Time.now () in
-                          Z3.Solver.push solver ;
-                          let result, _, _, _, _ = evaluate_stmts (bounds @ guards) context solver sorts func_decls in
-                          print_time before ("SAT solve iteration " ^ (string_of_int depth)) ;
-                          begin match result with 
-                            | "sat" -> let _ = List.map (Z3.Solver.get_assertions solver) ~f:(fun x -> print_endline ("(assert " ^(Z3.Expr.to_string x) ^ ")")) in 
-                                        print_string result; "sat"
-                            | _ -> Z3.Solver.pop solver 1; "unsat"
-                          end
-                        in
-                      let rec evaluate_alternative current_depth max_depth =
-                        (* if (current_depth = 2) then (
-                          print_endline "__________________________________ \n";
-                          let _ = List.map (Z3.Solver.get_assertions solver) ~f:(fun x -> print_endline ("(assert " ^(Z3.Expr.to_string x) ^ ")")) in 
-                          ()
-                        )
-                        else ( *)
-                          begin match (evaluate_unsat_result solver current_depth) with 
-                            | "unsat" -> ()
-                            | _ -> begin match (evaluate_sat_result solver current_depth) with 
-                                        | "sat" -> print_string "sat"
-                                            (* begin match Z3.Solver.get_model solver with 
-                                              | Some model -> print_endline ("\n _______________________________________  \n Model: \n" ^ Z3.Model.to_string model); ()
-                                              | None -> print_string "no model found"; ()
-                                            end *)
-                                        | _ -> evaluate_alternative (current_depth + 1) max_depth
-                                       end
+                      (*TODO trying tor right code to validate a model*)
+                      let validate_model keys ctx solver sorts func_decls = 
+                        begin match Z3.Solver.get_model solver with 
+                          | Some model -> 
+                                let new_axioms, is_cycle = find_cycles_in_model keys model ctx func_decls sorts in
+                                if is_cycle then "unsat", new_axioms else "sat", []
+                          | None -> raise (UnsupportedQuery "ERROR: no model found")
+                        end
+                      in
+                      let rec evaluate_result keys ctx solver sorts func_decls iteration_num = 
+                        print_endline "iteration";
+                        begin match (validate_model keys ctx solver sorts func_decls) with 
+                          | "sat", _ -> (*print_string "sat"; ()*)
+                              begin match Z3.Solver.get_model solver with 
+                                | Some model ->(*print_endline ("\n _______________________________________  \n Model: \n" ^ Z3.Model.to_string model);*) print_string "sat"; ()
+                                | None -> print_string "no model found"; ()
+                              end
+                          | "unsat", new_axioms ->
+                            begin match (evaluate_unsat_result solver new_axioms iteration_num) with 
+                              | "unsat" -> print_string "unsat"; ()
+                              | "sat" -> evaluate_result keys ctx solver sorts func_decls iteration_num 
+                              | _ -> raise (UnsupportedQuery "neither sat nor unsat")
                            end
-                        (* ) *)
-                        in
-                        print_string ("DEPTH IS: " ^ (string_of_int (max_elt depths_list)));
-                        evaluate_alternative 1 (max_elt depths_list) (*TODO: make each depth ADT specific*)
+                          | _ -> raise (UnsupportedQuery "Neither sat nor unsat")
+                        end in
+                        let acyclicality_keys = StrTbl.keys_list Ctx.t.adt_with_depth_variables in
+                        evaluate_result acyclicality_keys context solver sorts func_decls 1 (*TODO: make each depth ADT specific*)
               )
                 end
               )
@@ -197,12 +174,12 @@ let speclist =
                 let before = Core.Time.now () in
                 let _, ras = reduce_axioms_with_depths rrs in
                 (*delete next two lines*)
-                let _, context, _, sorts, func_decls = evaluate_stmts_from_scratch ([PA.Stmt_decl_sort ("nat", 0); PA.Stmt_decl_sort ("list", 0); PA.Stmt_decl_sort ("enum", 0)]) in
+                (* let _, context, _, sorts, func_decls = evaluate_stmts_from_scratch ([PA.Stmt_decl_sort ("nat", 0); PA.Stmt_decl_sort ("list", 0); PA.Stmt_decl_sort ("enum", 0)]) in
                 let _ = generate_recursive_functions_up_to_depth 2 context sorts func_decls in
-                let guards  = List.map (StrTbl.keys_list Ctx.t.guards) ~f:(fun x -> PA.Stmt_assert (PA.Const x)) in
+                let guards  = List.map (StrTbl.keys_list Ctx.t.guards) ~f:(fun x -> PA.Stmt_assert (PA.Const x)) in *)
                 print_time before "Reduce axioms time" ;
                 Format.fprintf fmt "@[<hv>%a@]" (PA.pp_list PA.pp_stmt)
-                  (stmt_to_statements (ras @ Ctx.t.axioms @ guards)) ;
+                  (stmt_to_statements (ras @ Ctx.t.axioms)) ;
                 Out_channel.close oc ) ;
               exit 0 
           end)

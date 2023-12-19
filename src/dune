@@ -11,7 +11,8 @@
   r6reduce_axioms
   reduction_functions
   bound
-  z3_utils)
+  z3_utils
+  z3model_utils)
  (libraries smtlib-utils containers ocamlgraph z3 core)
  (preprocess
   (pps landmarks-ppx --auto))

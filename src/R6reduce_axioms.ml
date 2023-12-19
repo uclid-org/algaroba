@@ -237,8 +237,7 @@
          Ctx.add_axiom stmt
        else ()
    
-   let generate_acyclicality_axioms_term term term_ty min_depth max_depth
-       selector_list =
+   let generate_acyclicality_axioms_term term term_ty min_depth max_depth selector_list =
      let rec loop stack =
        match stack with
        | [] -> ()
@@ -294,22 +293,32 @@
      in
      loop [(term, term_ty, max_depth, selector_list, [], [])]
    
+
+   let generate_recursive_functions_up_to_depth depth context sorts func_decls =
+      let rec aux depth context sorts func_decls =
+        if (depth = 0) then ()
+        else 
+          let iteration = Ctx.unroll_recursive_functions context sorts func_decls in 
+          Ctx.add_axioms iteration;
+          aux (depth -1) context sorts func_decls
+        in 
+      aux depth context sorts func_decls
+
    let generate_acyclicality_axioms_adt terms_with_ty start_depth end_depth
        (selector_list : (string * PA.ty * string) list) =
      let rec aux terms_with_ty min_depth max_depth
          (selector_list : (string * PA.ty * string) list) =
-       (* if ((List.length Ctx.t.axioms) > 50000) then (print_string
-          ((string_of_int (List.length Ctx.t.axioms)) ^ "\n")); *)
        match terms_with_ty with
        | value :: rest ->
            let _ =
-             generate_acyclicality_axioms_term (*_val*) (fst value) (snd value)
+             generate_acyclicality_axioms_term (fst value) (snd value)
                min_depth max_depth selector_list
            in
            aux rest min_depth max_depth selector_list
        | _ -> ()
      in
-     aux terms_with_ty start_depth end_depth selector_list
+     aux terms_with_ty start_depth end_depth selector_list (*acyclicality part*)
+     (*generate_recursive_functions_up_to_depth (end_depth - start_depth) (*recursive function part*)*)
    
    let generate_selector_list (constructor_list : PA.cstor list) =
      let rec aux constructor_list acc =
@@ -356,8 +365,35 @@
           else loop (i + 1)
         in
         loop 0
-
    
+   let generate_acyclicality_axioms_up_to_stop_depth keys stop_depth =
+    let rec aux keys =
+      match keys with
+      | key :: rest ->
+          let values, ty = StrTbl.find Ctx.t.adt_with_depth_variables key in
+          print_endline "GENERATING FOR THESE VALUES: "; print_string_list (List.map fst values); print_string_list (List.map (fun x -> (string_of_int (snd x))) values);
+          let values_len = Ctx.get_vertex_weight key in
+          let stop =
+            if stop_depth <= 0 || stop_depth > values_len + 1 then values_len + 1
+            else stop_depth
+          in
+          let constructor_list = StrTbl.find Ctx.t.adts key in
+          let selector_list = generate_selector_list constructor_list in
+          let _ = create_selector_values (StrTbl.keys_list Ctx.t.adts) in
+          let _ =
+            List.map 
+              (fun x ->
+                   if ((snd x) < stop) then (print_endline ("GENERATING ACYCLIC AXIOM FOR " ^ (fst x) ^ " from " ^ (string_of_int (snd x)) ^ " to " ^ (string_of_int stop));generate_acyclicality_axioms_adt [(PA.Const (fst x), ty)] (snd x)
+               stop selector_list)) values in
+          let _ = Ctx.update_depth stop_depth key
+          in
+          print_endline "END";
+          aux rest
+      | _ -> []
+    in
+    let _ = aux keys in
+    ()
+
    let generate_acyclicality_axioms keys start_depth stop_depth =
      let rec aux keys =
        match keys with
@@ -373,7 +409,7 @@
            let _ = create_selector_values (StrTbl.keys_list Ctx.t.adts) in
            let _ =
              generate_acyclicality_axioms_adt
-               (List.map (fun x -> (PA.Const x, ty)) values)
+               (List.map (fun x -> (PA.Const (fst x), ty)) values)
                start_depth stop selector_list
            in
            aux rest
