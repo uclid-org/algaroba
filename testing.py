@@ -39,8 +39,6 @@ def run_ocaml_on_smt2(smt2_file_path, ocaml_executable_path = "_build/default/bi
 
 
 
-# For Barrett benchmarks
-
 if test_case == "Barrett":
     folder1 = "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/"
     folder2 = "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v2/"
@@ -53,7 +51,7 @@ if test_case == "Barrett":
     typedfolder5 = "test/QF_DT2/20172804-Barrett/barrett-jsat/typed/v5/"
     typedfolder10 = "test/QF_DT2/20172804-Barrett/barrett-jsat/typed/v10/"
 
-    folders = {"test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/": glob.glob(folder1 + "*.smt2")[:10],
+    folders = {"test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v1/": glob.glob(folder1 + "*.smt2"),
             "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v2/": glob.glob(folder2 + "*.smt2"),
             "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v3/": glob.glob(folder3 + "*.smt2"),
             "test/QF_DT2/20172804-Barrett/barrett-jsat/tests/v5/": glob.glob(folder5 + "*.smt2"),
@@ -72,8 +70,7 @@ elif test_case == "BouvierUF":
         folder = "test/QF_UFDT/20210312-Bouvier/" + str(i) + "/"
         folders[folder] = glob.glob(folder + "*.smt2")
 elif test_case == "blocksworld":
-    folders = {"test/blocksworld/": glob.glob("test/blocksworld/*.smt2")}
-    folders = folders = {"test/blocksworld/": ["test/blocksworld/blocksworld_from_18_0_3_to_4_13_4_negated_goal_bmc_3.smt2"]}
+    folders = {"test/blocksworld/": glob.glob("test/blocksworld/*.smt2")[:500]}
 else:
     folders = {}
     print("ERROR: Not given a valid test case")
