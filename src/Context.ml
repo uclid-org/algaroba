@@ -183,6 +183,70 @@ module Ctx = struct
       | None -> StrTbl.add t.adt_with_all_variables name ([variable], ty)
     end
 
+    (* function that does a DFS to find if a data type is inductive*)
+(*not tail recursive at all, but we shouldn't have more than a few adts*)
+  let check_inductive_datatype (adt :string) =
+    let rec aux adt parents = 
+      if ((List.exists (fun x -> (String.equal x adt)) parents)) then true
+      else (
+          begin match StrTbl.find_opt t.adts adt with 
+            | Some cstor_list -> 
+                        let children = 
+                              List.flat_map 
+                                    (fun (cstor : PA.cstor) ->  List.map (fun x -> match (snd x) with 
+                                                                                      |PA.Ty_app (s, _) -> s
+                                                                                      | _ -> raise (UnsupportedQuery ("check_inductive_datatypes given incorrect adt: "^ adt)))
+                                                                           cstor.cstor_args)
+                                    cstor_list
+                        in
+                        List.fold_left 
+                          (fun acc child -> (aux child (adt::parents)) || acc) 
+                          false 
+                          children
+
+            | None -> false (* if adt is not actually an adt, we want to return false*)
+        end
+      )
+      in
+    aux adt []
+
+(* function that does a DFS to find if a data type is well-founded*)
+(*not tail recursive at all, but we shouldn't have more than a few adts*)
+(*TODO: clean up this logic a little bit*)
+  let check_not_well_founded_datatype (adt :string) =
+    let rec aux adt parents = 
+        if (List.exists (fun x -> (String.equal x adt)) parents) then true 
+        else (
+          if (not (check_inductive_datatype adt)) then false
+          else (
+            begin match StrTbl.find_opt t.adts adt with 
+              | Some cstor_list -> 
+                    let children = List.map 
+                                      (fun (cstor : PA.cstor) ->  List.map (fun x -> match (snd x) with 
+                                                                                        |PA.Ty_app (s, _) -> s
+                                                                                        | _ -> raise (UnsupportedQuery ("check_well_founded_datatypes given incorrect adt: "^ adt)))
+                                                                            cstor.cstor_args)
+                                      cstor_list
+                    in 
+                  List.fold_left
+                    (fun acc1 const_child_list -> 
+                      if (List.is_empty const_child_list) then false
+                      else (
+                      (List.fold_left 
+                        (fun acc2 child -> (aux child (adt::parents)) && acc2)) 
+                        true 
+                        const_child_list)
+                      && acc1)
+                      true
+                      children
+                | None -> false (* if adt is not actually an adt, we want to return true*)
+              end
+          )
+        )
+      in
+    aux adt []
+
+
   (*BEGIN: here I will try and rewrite find_max_depths to actually find the strongly connected components (Kosaraju's algorithm) and then calculate max depths*)
   let get_vertex_weight vertex = 
     match (StrTbl.find_opt t.mutually_recursive_datatypes vertex) with 
@@ -391,30 +455,6 @@ module Ctx = struct
         | h::t -> print_string (h ^ ", ") ; print_string_list_helper t
       in
       print_string "["; print_string_list_helper s; print_endline "]"
-    
-(* function that does a DFS to find if a data type is inductive*)
-(*not tail recursive at all, but we shouldn't have more than a few adts*)
-  let check_inductive_datatype (adt :string) =
-    let rec aux adt parents = 
-      if ((List.exists (fun x -> (String.equal x adt)) parents)) then true
-      else (
-        let children = 
-          begin match StrTbl.find_opt t.adts adt with 
-            | Some cstor_list -> List.flat_map 
-                                    (fun (cstor : PA.cstor) ->  List.map (fun x -> match (snd x) with 
-                                                                                      |PA.Ty_app (s, _) -> s
-                                                                                      | _ -> raise (UnsupportedQuery ("check_inductive_datatypes given incorrect adt: "^ adt)))
-                                                                           cstor.cstor_args)
-                                    cstor_list
-            | None -> raise (UnsupportedQuery ("check_inductive_datatypes given incorrect adt: "^ adt))
-        end in
-        List.fold_left 
-          (fun acc child -> (aux child (adt::parents)) || acc) 
-          false 
-          children
-      )
-      in
-    aux adt []
 
     
   let add_axiom new_axiom = 
@@ -538,22 +578,3 @@ let alt_ty_printer ty =  match ty with
   | Ty_real -> print_string "Real"
   | Ty_app (s,[]) -> print_string s
   | _ -> print_string "other"
-
-
-(* will tell you if two PA.ty are equal*)
-
-(*I think this is not necessary since we can ue the built in equaity*)
-(* let ty_equal (ty1 : PA.ty) (ty2 : PA.ty) : bool = 
-begin match ty1 with
-  | Ty_bool ->
-      begin match ty2 with
-        | Ty_bool -> true
-        | _ -> false
-      end
-  | Ty_real ->
-      begin match ty2 with
-        | Ty_real -> true
-        | _ -> false
-      end
-  | Ty_app of ty_var * ty list
-  | Ty_arrow of ty list * ty *)
