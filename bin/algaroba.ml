@@ -98,6 +98,8 @@ let speclist =
           print_time before "Normalize time" ;
           let before = Core.Time.now () in
           let rrs = reduce_rule_statements ns in
+          let adts = StrTbl.keys_list Ctx.t.adts in
+          let _ = List.map  adts (fun adt -> if (Ctx.check_not_well_founded_datatype adt) then (raise (UnsupportedQuery ("ADT " ^ adt ^ " is not well founded")))) in
           print_time before "Reduce time" ;
           match !output_file with
           | "" -> (

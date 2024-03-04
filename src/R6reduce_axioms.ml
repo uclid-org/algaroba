@@ -402,5 +402,5 @@
      )
    
    let reduce_axioms stmts =
-     let _, new_stmts = reduce_axioms_with_depths stmts in
-     new_stmts
+    let _, new_stmts = reduce_axioms_with_depths stmts in
+    new_stmts
