@@ -50,3 +50,31 @@ z3 path: the path to run z3, default is 'z3'
 cvc5 path: the path to run cvc5, default is 'cvc5'
 algaroba flags: can run the solver with different flags to compare, default is just '{"algaroba": []}', i.e. no flags
 ```
+
+## Citation
+
+If you use Algaroba in your work please cite the following paper:
+
+```
+@inproceedings{algaroba24,
+  author       = {Amar Shah and
+                  Federico Mora and
+                  Sanjit A. Seshia},
+  editor       = {Michael J. Wooldridge and
+                  Jennifer G. Dy and
+                  Sriraam Natarajan},
+  title        = {An Eager Satisfiability Modulo Theories Solver for Algebraic Datatypes},
+  booktitle    = {Thirty-Eighth {AAAI} Conference on Artificial Intelligence, {AAAI}
+                  2024, Thirty-Sixth Conference on Innovative Applications of Artificial
+                  Intelligence, {IAAI} 2024, Fourteenth Symposium on Educational Advances
+                  in Artificial Intelligence, {EAAI} 2014, February 20-27, 2024, Vancouver,
+                  Canada},
+  pages        = {8099--8107},
+  publisher    = {{AAAI} Press},
+  year         = {2024},
+  url          = {https://doi.org/10.1609/aaai.v38i8.28649},
+  doi          = {10.1609/AAAI.V38I8.28649},
+  timestamp    = {Tue, 02 Apr 2024 16:32:08 +0200},
+  biburl       = {https://dblp.org/rec/conf/aaai/ShahMS24.bib}
+}
+```
