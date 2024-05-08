@@ -11,7 +11,7 @@
   (dune (>= 3.7))
   (core (>= v0.15.1))
   (ppx_let (>= v0.16.0))
-  (smtlib-utils (>= 0.4))
+  (smtlib-utils (>= 0.5))
   (landmarks-ppx (>= 1.4))
   (ocamlgraph (>= 2.0.0))
   (containers (>= 3.12))

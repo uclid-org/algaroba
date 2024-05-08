@@ -39,8 +39,8 @@ Specific parameters for the present benchmark:
 (set-info :category "industrial")
 (set-info :status unsat)
 
-(declare-datatypes ((Place 0)) (((p1) (p2) (p3) (p4) (p5) (p6) (p7) (p8) (p9) (p10) (p11) (p12) (p13) (p14) (p15) (p16) (p17) (p18) (p19) (p20) (p21) (p22) (p23) (p24) (p25) (p26) (p27) (p28) (p29) (p30) (p31) (p32) (p33) (p34) (p35) (p36) (p37))))
-(declare-datatypes ((Unit 0)) (((u0) (u1) (u2) (u3) (u4) (u5) (u6) (u7) (u8) (u9) (u10) (u11) (u12))))
+(declare-datatype Place ((p1) (p2) (p3) (p4) (p5) (p6) (p7) (p8) (p9) (p10) (p11) (p12) (p13) (p14) (p15) (p16) (p17) (p18) (p19) (p20) (p21) (p22) (p23) (p24) (p25) (p26) (p27) (p28) (p29) (p30) (p31) (p32) (p33) (p34) (p35) (p36) (p37)))
+(declare-datatype Unit ((u0) (u1) (u2) (u3) (u4) (u5) (u6) (u7) (u8) (u9) (u10) (u11) (u12)))
 (declare-fun u (Place) Unit)
 (assert (= (u p1) u0))
 (assert (or (= (u p2) u0) (= (u p2) u1)))
